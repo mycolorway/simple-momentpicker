@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Datetimepicker Demo</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles/datetimepicker.css"/>
+    <style type="text/css">
+        html, body {
+            background:#F9F9F9;
+            padding: 0;
+            margin: 0;
+            font: 14px/1.6 "Lucida Grande", "Helvetica", sans-serif;
+            color: #333;
+        }
+        .wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            color: rgb(113, 113, 113);
+        }
+        header {
+            margin: 50px 0;
+            text-align: center;
+        }
+        section {
+            margin: 30px 0;
+        }
+
+        .display-input {
+            width: 200px;
+        }
+
+        .simple-datetimepicker .datetimepicker-header span {
+          margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <header>
+            <h1>Simple Datetimepicker</h3>
+        </header>
+        <section>
+            <input type="text" id="datetime"/>
+        </section>
+    </div>
+    <script type="text/javascript" src="vendor/bower/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="vendor/bower/simple-module/lib/module.js"></script>
+    <script type="text/javascript" src="./vendor/bower/moment/min/moment-with-locales.js"></script>
+    <script type="text/javascript" src="vendor/bower/simple-datepicker/lib/datepicker.js"></script>
+    <script type="text/javascript" src="vendor/bower/simple-timepicker/lib/timepicker.js"></script>
+    <script type="text/javascript" src="lib/datetimepicker.js"></script> 
+    <script type="text/javascript">
+        simple.datetimepicker({
+          el: '#datetime',
+          list: ['year','%年',  'month', '%月', 'date', '%日      ', 'hour', '%时', 'minute', '%分'],
+          displayFormat: 'YYYY年MM月DD日 HH时mm分'
+        });
+    </script>
+</body>
+
+</html>
+
+
