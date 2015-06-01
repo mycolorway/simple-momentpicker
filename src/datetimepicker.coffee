@@ -12,8 +12,6 @@ class Datetimepicker extends SimpleModule
       date:
         disableBefore: null
         disableAfter: null
-      minute:
-        forceFormat: true
 
 
   _init: ->
@@ -132,10 +130,10 @@ class Datetimepicker extends SimpleModule
         @view['month'].trigger 'datechange',
           month: @date.month()+1
 
-      if newDate.hour
+      if newDate.hour isnt null
         @date.hour newDate.hour
 
-      if newDate.minute
+      if newDate.minute isnt null
         @date.minute newDate.minute
 
       switch source
@@ -219,8 +217,8 @@ class Datetimepicker extends SimpleModule
       @view[view].setActive()
     else
       #deafultView is 'auto'
-      if @el.val() isnt '' and @view['hour']
-        @view['hour'].setActive()
+      if @el.val() isnt '' and @view['date']
+        @view['date'].setActive()
       else
         @view[@viewList[0]].setActive()
 

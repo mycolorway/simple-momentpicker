@@ -1,5 +1,5 @@
 .simple-datetimepicker {
-  width: 200px;
+  width: 250px;
   background: #fff;
   font-size: 12px;
   display: none;
@@ -133,17 +133,9 @@
   background: #cbe0ff;
 }
 .simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).panel-hour a.panel-item {
-  display: none;
+  width: 16.66%;
+  padding: 6px 8px;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).panel-hour[data-meridiem=am] a[data-meridiem=am] {
-  display: inline-block;
-}
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).panel-hour[data-meridiem=am] a[data-action=am] {
-  background: #cce5f1;
-}
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).panel-hour[data-meridiem=pm] a[data-meridiem=pm] {
-  display: inline-block;
-}
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).panel-hour[data-meridiem=pm] a[data-action=pm] {
-  background: #cce5f1;
+.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).panel-hour a.panel-item:nth-child(n + 7):not(:nth-child(n + 13)) {
+  border-bottom: 1px dashed #dfdfdf;
 }

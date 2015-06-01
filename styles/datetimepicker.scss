@@ -3,7 +3,7 @@ $selected-color: #cce5f1;
 $border-color: #e7e7e7;
 
 .simple-datetimepicker {
-  width: 200px;
+  width: 250px;
   background: #fff;
   font-size: 12px;
   display: none;
@@ -169,23 +169,11 @@ $border-color: #e7e7e7;
 
       &.panel-hour {
         a.panel-item {
-          display: none;
-        }
-        &[data-meridiem=am] {
-          a[data-meridiem=am] {
-            display: inline-block;
-          }
-          a[data-action=am] {
-            background: $selected-color;
-          }
-        }
+          width: 16.66%;
+          padding: 6px 8px;
 
-        &[data-meridiem=pm] {
-          a[data-meridiem=pm] {
-            display: inline-block;
-          }
-          a[data-action=pm] {
-            background: $selected-color;
+          &:nth-child(n + 7):not(:nth-child(n + 13)) {
+            border-bottom: 1px dashed #dfdfdf;
           }
         }
       }
