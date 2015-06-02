@@ -1,5 +1,5 @@
 
-class Datetimepicker extends SimpleModule
+class MomentPicker extends SimpleModule
 
   opts:
     list: ['year','%-',  'month', '%-', 'date', '%   ', 'hour', '%:', 'minute']
@@ -22,10 +22,10 @@ class Datetimepicker extends SimpleModule
     @el = $(@opts.el)
 
     unless @el.length
-      throw 'simple datetimepicker: option el is required'
+      throw 'simple momentpicker: option el is required'
       return
 
-    @el.data 'datetimepicker', @
+    @el.data 'momentpicker', @
     val = @el.val() || moment()
     @date = if moment.isMoment(val) then val else moment(val, @opts.valueFormat)
 
@@ -34,7 +34,7 @@ class Datetimepicker extends SimpleModule
 
   _render: ->
     tpl = '''
-      <div class="simple-datetimepicker">
+      <div class="simple-momentpicker">
         <div class="picker-header">
         </div>
         <div class="picker-panels">
@@ -56,11 +56,12 @@ class Datetimepicker extends SimpleModule
 
   _renderFakeInput: ->
     type = @el.attr 'type'
-    @input = $('<input />').addClass('display-input').attr
+    @input = $('<input />').addClass('momentpicker-input').attr
       'readonly': 'true'
-      'type': type
+      'type': 'text'
+      'data-type': type
     .css
-        'cursor': 'pointer'
+      'cursor': 'pointer'
 
     @input.insertAfter @el
     @el.hide()
@@ -105,10 +106,10 @@ class Datetimepicker extends SimpleModule
       false
 
     return if @opts.inline
-    @input.on 'focus.datetimepicker', =>
+    @input.on 'focus.momentpicker', =>
       @show()
 
-    $(document).on 'click.datetimepicker', (e) =>
+    $(document).on 'click.momentpicker', (e) =>
       return if @input.is e.target
       return if @picker.has(e.target).length
       return if @picker.is e.target
@@ -198,6 +199,7 @@ class Datetimepicker extends SimpleModule
 
   clear: ->
     @el.val ''
+    @input.val ''
     @date = moment()
     for name in @viewList
       @view[name].clear()
@@ -241,13 +243,13 @@ class Datetimepicker extends SimpleModule
     unless @opts.inline
       @input.remove()
       @el.show()
-      $(document).off '.datetimepicker'
+      $(document).off '.momentpicker'
 
 
-datetimepicker = (opts) ->
-  return new Datetimepicker opts
+momentpicker = (opts) ->
+  return new MomentPicker opts
 
-datetimepicker.date = (opts) ->
+momentpicker.date = (opts) ->
   $.extend opts,
     list:['year', '%-', 'month', '%-', 'date']
     displayFormat: 'YYYY-MM-DD'
@@ -255,9 +257,9 @@ datetimepicker.date = (opts) ->
     cls: 'date-picker'
     defaultView: 'date'
 
-  return new Datetimepicker opts
+  return new MomentPicker opts
 
-datetimepicker.month = (opts) ->
+momentpicker.month = (opts) ->
   $.extend opts,
     list:['year', '%-', 'month']
     displayFormat: 'YYYY-MM'
@@ -265,9 +267,9 @@ datetimepicker.month = (opts) ->
     cls: 'month-picker'
     defaultView: 'month'
 
-  return new Datetimepicker opts
+  return new MomentPicker opts
 
-datetimepicker.time = (opts) ->
+momentpicker.time = (opts) ->
   $.extend opts,
     list:['hour', '%-', 'minute']
     displayFormat: 'HH时mm分'
@@ -275,5 +277,5 @@ datetimepicker.time = (opts) ->
     cls: 'time-picker'
 
 
-  return new Datetimepicker opts
+  return new MomentPicker opts
 

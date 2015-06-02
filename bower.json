@@ -1,12 +1,12 @@
 {
-  "name": "simple-datetimepicker",
+  "name": "simple-momentpicker",
   "version": "0.1.0",
-  "homepage": "https://github.com/mycolorway/simple-datetimepicker",
+  "homepage": "https://github.com/mycolorway/simple-momentpicker",
   "authors": [
     "lcj <emlcjnil@gmail.com>"
   ],
   "description": "A simple datetime picker component.",
-  "main": "lib/datetimepicker.js",
+  "main": "lib/MomentPicker.js",
   "keywords": [],
   "license": "MIT",
   "ignore": [

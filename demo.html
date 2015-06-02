@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Datetimepicker Demo</title>
+    <title>Simple MomentPicker Demo</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="styles/datetimepicker.css"/>
+    <link rel="stylesheet" href="styles/momentpicker.css"/>
     <style type="text/css">
         html, body {
             background:#F9F9F9;
@@ -36,7 +36,7 @@
 
     <div class="wrapper">
         <header>
-            <h1>Simple Datetimepicker</h3>
+            <h1>Simple MomentPicker</h3>
         </header>
         <section>
             Date Picker <input type="text" id="date"/> <br/>
@@ -47,17 +47,15 @@
     <script type="text/javascript" src="vendor/bower/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="vendor/bower/simple-module/lib/module.js"></script>
     <script type="text/javascript" src="./vendor/bower/moment/min/moment-with-locales.js"></script>
-    <script type="text/javascript" src="vendor/bower/simple-datepicker/lib/datepicker.js"></script>
-    <script type="text/javascript" src="vendor/bower/simple-timepicker/lib/timepicker.js"></script>
-    <script type="text/javascript" src="lib/datetimepicker.js"></script> 
+    <script type="text/javascript" src="lib/momentpicker.js"></script>
     <script type="text/javascript">
-        simple.datetimepicker.date({
+        simple.momentpicker.date({
             el: '#date'
         });
-        simple.datetimepicker.time({
+        simple.momentpicker.time({
             el: '#time'
         });
-        simple.datetimepicker({
+        simple.momentpicker({
             el: '#datetime',
             displayFormat: 'YYYY年MM月DD日 HH时mm分'
         });
