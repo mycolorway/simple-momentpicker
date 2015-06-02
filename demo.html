@@ -39,7 +39,9 @@
             <h1>Simple Datetimepicker</h3>
         </header>
         <section>
-            <input type="text" id="datetime"/>
+            Date Picker <input type="text" id="date"/> <br/>
+            Time Picker <input type="text" id="time"/> <br/>
+            Datetime Picker<input type="text" id="datetime"/>
         </section>
     </div>
     <script type="text/javascript" src="vendor/bower/jquery/dist/jquery.min.js"></script>
@@ -49,10 +51,15 @@
     <script type="text/javascript" src="vendor/bower/simple-timepicker/lib/timepicker.js"></script>
     <script type="text/javascript" src="lib/datetimepicker.js"></script> 
     <script type="text/javascript">
+        simple.datetimepicker.date({
+            el: '#date'
+        });
+        simple.datetimepicker.time({
+            el: '#time'
+        });
         simple.datetimepicker({
-          el: '#datetime',
-//          list: ['year','%年',  'month', '%月', 'date', '%日      ', 'hour', '%时', 'minute', '%分'],
-          displayFormat: 'YYYY年MM月DD日 HH时mm分'
+            el: '#datetime',
+            displayFormat: 'YYYY年MM月DD日 HH时mm分'
         });
     </script>
 </body>

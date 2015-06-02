@@ -26,9 +26,7 @@
   "dependencies": {
     "jquery": "2.x",
     "simple-module": "2.x",
-    "moment": "~2.x",
-    "simple-datepicker": "#lc-new-monthpicker",
-    "simple-timepicker": "#lc-refactor"
+    "moment": "~2.x"
   }
 }
 

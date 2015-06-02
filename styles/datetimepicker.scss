@@ -8,16 +8,20 @@ $border-color: #e7e7e7;
   font-size: 12px;
   display: none;
 
+  &.time-picker, &.date-picker, &.month-picker {
+      width: 200px;
+  }
+
   a {
     text-decoration: none;
   }
 
-  .datetimepicker-header {
+  .picker-header {
     text-align: center;
     padding: 10px;
     border-bottom: 1px solid $border-color;
 
-    input {
+    .view-input {
       display: inline-block;
       outline: 0;
       text-align: center;
@@ -44,7 +48,7 @@ $border-color: #e7e7e7;
     }
   }
 
-  .datetimepicker-panels {
+  .picker-panels {
 
     .panel-date {
       width: 100%;
@@ -154,6 +158,7 @@ $border-color: #e7e7e7;
           background: $selected-color;
         }
       }
+
       a.menu-item {
         width: 50%;
         padding: 5px 0;
@@ -177,7 +182,6 @@ $border-color: #e7e7e7;
           }
         }
       }
-
     }
   }
 }

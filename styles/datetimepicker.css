@@ -4,45 +4,48 @@
   font-size: 12px;
   display: none;
 }
+.simple-datetimepicker.time-picker, .simple-datetimepicker.date-picker, .simple-datetimepicker.month-picker {
+  width: 200px;
+}
 .simple-datetimepicker a {
   text-decoration: none;
 }
-.simple-datetimepicker .datetimepicker-header {
+.simple-datetimepicker .picker-header {
   text-align: center;
   padding: 10px;
   border-bottom: 1px solid #e7e7e7;
 }
-.simple-datetimepicker .datetimepicker-header input {
+.simple-datetimepicker .picker-header .view-input {
   display: inline-block;
   outline: 0;
   text-align: center;
 }
-.simple-datetimepicker .datetimepicker-header input.year-input {
+.simple-datetimepicker .picker-header .view-input.year-input {
   width: 15%;
 }
-.simple-datetimepicker .datetimepicker-header input.month-input {
+.simple-datetimepicker .picker-header .view-input.month-input {
   width: 8%;
 }
-.simple-datetimepicker .datetimepicker-header input.date-input {
+.simple-datetimepicker .picker-header .view-input.date-input {
   width: 8%;
 }
-.simple-datetimepicker .datetimepicker-header input.hour-input, .simple-datetimepicker .datetimepicker-header input.minute-input {
+.simple-datetimepicker .picker-header .view-input.hour-input, .simple-datetimepicker .picker-header .view-input.minute-input {
   width: 8%;
 }
-.simple-datetimepicker .datetimepicker-header span {
+.simple-datetimepicker .picker-header span {
   margin: 0 5px;
 }
-.simple-datetimepicker .datetimepicker-header span:last-child {
+.simple-datetimepicker .picker-header span:last-child {
   margin-right: 0;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date {
+.simple-datetimepicker .picker-panels .panel-date {
   width: 100%;
   display: none;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date.active {
+.simple-datetimepicker .picker-panels .panel-date.active {
   display: table;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date .calendar-menu .menu-item {
+.simple-datetimepicker .picker-panels .panel-date .calendar-menu .menu-item {
   width: 50%;
   padding: 5px 0;
   text-align: center;
@@ -50,13 +53,13 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date .calendar-menu .menu-item:hover {
+.simple-datetimepicker .picker-panels .panel-date .calendar-menu .menu-item:hover {
   background: #cbe0ff;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table {
+.simple-datetimepicker .picker-panels .panel-date table {
   width: 100%;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table td {
+.simple-datetimepicker .picker-panels .panel-date table td {
   width: 24px;
   line-height: 24px;
   margin: 0;
@@ -64,10 +67,10 @@
   text-align: center;
   vertical-align: middle;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table.calendar .datepicker-dow {
+.simple-datetimepicker .picker-panels .panel-date table.calendar .datepicker-dow {
   color: #999;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table.calendar .datepicker-day a {
+.simple-datetimepicker .picker-panels .panel-date table.calendar .datepicker-day a {
   display: block;
   height: 100%;
   background: #f3f3f3;
@@ -77,36 +80,36 @@
   -moz-text-shadow: 0 1px 0 white;
   text-shadow: 0 1px 0 white;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table.calendar .datepicker-day a.today {
+.simple-datetimepicker .picker-panels .panel-date table.calendar .datepicker-day a.today {
   background: #ffe451;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table.calendar .datepicker-day a.others {
+.simple-datetimepicker .picker-panels .panel-date table.calendar .datepicker-day a.others {
   background: #fff;
   color: #cccccc;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table.calendar .datepicker-day a:hover {
+.simple-datetimepicker .picker-panels .panel-date table.calendar .datepicker-day a:hover {
   background: #cbe0ff;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table.calendar .datepicker-day a.selected {
+.simple-datetimepicker .picker-panels .panel-date table.calendar .datepicker-day a.selected {
   background: #cce5f1;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table.calendar .datepicker-day a.disabled {
+.simple-datetimepicker .picker-panels .panel-date table.calendar .datepicker-day a.disabled {
   background: #fff;
   color: #ccc;
   cursor: default;
   pointer-events: none;
 }
-.simple-datetimepicker .datetimepicker-panels .panel-date table.calendar .datepicker-month a {
+.simple-datetimepicker .picker-panels .panel-date table.calendar .datepicker-month a {
   display: block;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date) {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date) {
   display: none;
   width: 100%;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).active {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date).active {
   display: block;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date) a.panel-item {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date) a.panel-item {
   display: inline-block;
   box-sizing: border-box;
   margin: 0;
@@ -115,13 +118,13 @@
   padding: 10px;
   cursor: pointer;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date) a.panel-item:hover {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date) a.panel-item:hover {
   background: #cbe0ff;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date) a.panel-item.selected {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date) a.panel-item.selected {
   background: #cce5f1;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date) a.menu-item {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date) a.menu-item {
   width: 50%;
   padding: 5px 0;
   text-align: center;
@@ -129,13 +132,13 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date) a.menu-item:hover {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date) a.menu-item:hover {
   background: #cbe0ff;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).panel-hour a.panel-item {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date).panel-hour a.panel-item {
   width: 16.66%;
   padding: 6px 8px;
 }
-.simple-datetimepicker .datetimepicker-panels .panel:not(.panel-date).panel-hour a.panel-item:nth-child(n + 7):not(:nth-child(n + 13)) {
+.simple-datetimepicker .picker-panels .panel:not(.panel-date).panel-hour a.panel-item:nth-child(n + 7):not(:nth-child(n + 13)) {
   border-bottom: 1px dashed #dfdfdf;
 }

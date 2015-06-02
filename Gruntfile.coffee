@@ -19,7 +19,11 @@ module.exports = (grunt) ->
         options:
           bare: true
         files:
-          'lib/<%= name %>.js': 'src/<%= name %>.coffee'
+          'lib/<%= name %>.js': [
+            'src/<%= name %>.coffee'
+            'src/view.coffee',
+            'src/*.coffee'
+          ]
       spec:
         files:
           'spec/<%= name %>-spec.js': 'spec/<%= name %>-spec.coffee'
@@ -32,11 +36,11 @@ module.exports = (grunt) ->
         objectToExport: '<%= name %>'
         globalAlias: '<%= name %>'
         deps:
-          'default': ['$', 'SimpleModule', 'SimpleDatepicker']
-          amd: ['jquery', 'simple-module', 'simple-datepicker']
-          cjs: ['jquery', 'simple-module', 'simple-datepicker']
+          'default': ['$', 'SimpleModule']
+          amd: ['jquery', 'simple-module']
+          cjs: ['jquery', 'simple-module']
           global:
-            items: ['jQuery', 'SimpleModule', 'simple.datepicker']
+            items: ['jQuery', 'SimpleModule']
             prefix: ''
 
     watch:

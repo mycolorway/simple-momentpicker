@@ -8,6 +8,7 @@ class Datetimepicker extends SimpleModule
     valueFormat: 'YYYY-MM-DD HH:mm'
     displayFormat: 'YYYY-MM-DD HH:mm'
     defaultView: 'auto'
+    cls: 'datetime-picker'
     viewOpts:
       date:
         disableBefore: null
@@ -34,15 +35,16 @@ class Datetimepicker extends SimpleModule
   _render: ->
     tpl = '''
       <div class="simple-datetimepicker">
-        <div class="datetimepicker-header">
+        <div class="picker-header">
         </div>
-        <div class="datetimepicker-panels">
+        <div class="picker-panels">
         </div>
       </div>
     '''
     @picker = $(tpl)
-    @headerContainer = @picker.find('.datetimepicker-header')
-    @panelContainer = @picker.find('.datetimepicker-panels')
+    @picker.addClass @opts.cls if @opts.cls
+    @headerContainer = @picker.find('.picker-header')
+    @panelContainer = @picker.find('.picker-panels')
     @_renderViews()
 
     if @opts.inline
@@ -84,7 +86,7 @@ class Datetimepicker extends SimpleModule
 
 
         $.extend opt, @opts['viewOpts'][name] if @opts['viewOpts'][name]
-        @view[name] = new SimpleDatepicker.View::constructor.views[name](opt)
+        @view[name] = new View::constructor.views[name](opt)
         @viewList.push name
         @_bindView(@view[name])
       else
@@ -217,7 +219,7 @@ class Datetimepicker extends SimpleModule
       @view[view].setActive()
     else
       #deafultView is 'auto'
-      if @el.val() isnt '' and @view['date']
+      if @view['date']
         @view['date'].setActive()
       else
         @view[@viewList[0]].setActive()
@@ -245,4 +247,33 @@ class Datetimepicker extends SimpleModule
 datetimepicker = (opts) ->
   return new Datetimepicker opts
 
+datetimepicker.date = (opts) ->
+  $.extend opts,
+    list:['year', '%-', 'month', '%-', 'date']
+    displayFormat: 'YYYY-MM-DD'
+    valueFormat: 'YYYY-MM-DD'
+    cls: 'date-picker'
+    defaultView: 'date'
+
+  return new Datetimepicker opts
+
+datetimepicker.month = (opts) ->
+  $.extend opts,
+    list:['year', '%-', 'month']
+    displayFormat: 'YYYY-MM'
+    valueFormat: 'YYYY-MM'
+    cls: 'month-picker'
+    defaultView: 'month'
+
+  return new Datetimepicker opts
+
+datetimepicker.time = (opts) ->
+  $.extend opts,
+    list:['hour', '%-', 'minute']
+    displayFormat: 'HH时mm分'
+    valueFormat: 'HH:mm'
+    cls: 'time-picker'
+
+
+  return new Datetimepicker opts
 
