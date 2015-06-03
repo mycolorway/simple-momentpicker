@@ -59,9 +59,12 @@ class MomentPicker extends SimpleModule
     @input = $('<input />').addClass('momentpicker-input').attr
       'readonly': 'true'
       'type': 'text'
+      'placeholder': @el.attr 'placeholder'
       'data-type': type
     .css
       'cursor': 'pointer'
+
+    @input.val @opts.displayFormat if @el.val() isnt ''
 
     @input.insertAfter @el
     @el.hide()
