@@ -64,7 +64,7 @@ class MomentPicker extends SimpleModule
     .css
       'cursor': 'pointer'
 
-    @input.val @opts.displayFormat if @el.val() isnt ''
+    @input.val @date.format(@opts.displayFormat) if @el.val() isnt ''
 
     @input.insertAfter @el
     @el.hide()
