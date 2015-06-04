@@ -252,33 +252,37 @@ class MomentPicker extends SimpleModule
 momentpicker = (opts) ->
   return new MomentPicker opts
 
+momentpicker.View = View
+
 momentpicker.date = (opts) ->
-  $.extend opts,
+  opts = $.extend
     list:['year', '%-', 'month', '%-', 'date']
     displayFormat: 'YYYY-MM-DD'
     valueFormat: 'YYYY-MM-DD'
     cls: 'date-picker'
     defaultView: 'date'
+  , opts
 
   return new MomentPicker opts
 
 momentpicker.month = (opts) ->
-  $.extend opts,
+  opts = $.extend
     list:['year', '%-', 'month']
     displayFormat: 'YYYY-MM'
     valueFormat: 'YYYY-MM'
     cls: 'month-picker'
     defaultView: 'month'
+  , opts
 
   return new MomentPicker opts
 
 momentpicker.time = (opts) ->
-  $.extend opts,
+  opts = $.extend
     list:['hour', '%-', 'minute']
     displayFormat: 'HH时mm分'
     valueFormat: 'HH:mm'
     cls: 'time-picker'
-
+  , opts
 
   return new MomentPicker opts
 

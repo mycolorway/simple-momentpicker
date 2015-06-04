@@ -20,8 +20,8 @@ module.exports = (grunt) ->
           bare: true
         files:
           'lib/<%= name %>.js': [
+            'src/view.coffee'
             'src/<%= name %>.coffee'
-            'src/view.coffee',
             'src/*.coffee'
           ]
       spec:
@@ -53,21 +53,23 @@ module.exports = (grunt) ->
       src:
         files: ['src/**/*.coffee']
         tasks: ['coffee:src', 'umd']
-#      jasmine:
-#        files: ['lib/**/*.js', 'spec/**/*.js']
-#        tasks: 'jasmine'
+      jasmine:
+        files: ['lib/**/*.js', 'spec/**/*.js']
+        tasks: 'jasmine'
 
-#    jasmine:
-#      test:
-#        src: ['lib/**/*.js']
-#        options:
-#          outfile: 'spec/index.html'
-#          styles: 'styles/<%= name %>.css'
-#          specs: 'spec/<%= name %>-spec.js'
-#          vendor: [
-#            'vendor/bower/jquery/dist/jquery.min.js'
-#            'vendor/bower/simple-module/lib/module.js'
-#          ]
+    jasmine:
+      test:
+        src: ['lib/**/*.js']
+        options:
+          outfile: 'spec/index.html'
+          styles: 'styles/<%= name %>.css'
+          specs: 'spec/<%= name %>-spec.js'
+          vendor: [
+            'vendor/bower/jquery/dist/jquery.min.js'
+            'vendor/bower/jasmine-jquery/lib/jasmine-jquery.js'
+            'vendor/bower/simple-module/lib/module.js'
+            'vendor/bower/moment/moment.js'
+          ]
 
   grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -75,5 +77,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-jasmine'
   grunt.loadNpmTasks 'grunt-umd'
 
-  grunt.registerTask 'default', ['sass', 'coffee', 'umd', 'watch']
-  grunt.registerTask 'test', ['sass', 'coffee', 'umd']
+  grunt.registerTask 'default', ['sass', 'coffee', 'umd', 'jasmine', 'watch']
+  grunt.registerTask 'test', ['sass', 'coffee', 'umd', 'jasmine']

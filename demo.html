@@ -1,65 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple MomentPicker Demo</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="styles/momentpicker.css"/>
-    <style type="text/css">
-        html, body {
-            background:#F9F9F9;
-            padding: 0;
-            margin: 0;
-            font: 14px/1.6 "Lucida Grande", "Helvetica", sans-serif;
-            color: #333;
-        }
-        .wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-            color: rgb(113, 113, 113);
-        }
-        header {
-            margin: 50px 0;
-            text-align: center;
-        }
-        section {
-            margin: 30px 0;
-        }
+  <title>Simple MomentPicker Demo</title>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="styles/momentpicker.css"/>
+  <style type="text/css">
+    html, body {
+      background: #F9F9F9;
+      padding: 0;
+      margin: 0;
+      font: 14px/1.6 "Lucida Grande", "Helvetica", sans-serif;
+      color: #333;
+    }
 
-        .display-input {
-            width: 200px;
-        }
+    .wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+      color: rgb(113, 113, 113);
+    }
 
-    </style>
+    header {
+      margin: 50px 0;
+      text-align: center;
+    }
+
+    section {
+      margin: 30px 0;
+      height: 300px;
+    }
+
+    section .component {
+      float: left;
+    }
+
+    section .script {
+      float: right;
+    }
+    pre {
+      margin: 0;
+    }
+
+    .momentpicker-input {
+      width: 200px;
+    }
+
+  </style>
 </head>
 
 <body>
 
-    <div class="wrapper">
-        <header>
-            <h1>Simple MomentPicker</h3>
-        </header>
-        <section>
-            Date Picker <input type="text" id="date"/> <br/>
-            Time Picker <input type="text" id="time"/> <br/>
-            Datetime Picker<input type="text" id="datetime"/>
-        </section>
+<div class="wrapper">
+  <header>
+    <h1>Simple MomentPicker</h1>
+  </header>
+  <section>
+    <h2>A Datetime picker</h2>
+    <div class="component">
+      <input type="text" id="datetime"/>
     </div>
-    <script type="text/javascript" src="vendor/bower/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="vendor/bower/simple-module/lib/module.js"></script>
-    <script type="text/javascript" src="./vendor/bower/moment/min/moment-with-locales.js"></script>
-    <script type="text/javascript" src="lib/momentpicker.js"></script>
-    <script type="text/javascript">
-        simple.momentpicker.date({
-            el: '#date'
-        });
-        simple.momentpicker.time({
-            el: '#time'
-        });
+    <div class="script">
+      <pre>
         simple.momentpicker({
-            el: '#datetime',
-            displayFormat: 'YYYY年MM月DD日 HH时mm分'
+          el: '#datetime',
+          displayFormat: 'LT LL'
         });
-    </script>
+      </pre>
+    </div>
+  </section>
+
+
+  <section>
+    <h2>A Datetime picker</h2>
+    <div class="component">
+      <input type="text" id="date"/>
+    </div>
+    <div class="script">
+      <pre>
+        simple.momentpicker.date({
+          el: '#date',
+          displayFormat: 'LL'
+        });
+      </pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>A Month picker</h2>
+    <div class="component">
+      <input type="text" id="month"/>
+    </div>
+    <div class="script">
+      <pre>
+        simple.momentpicker.date({
+          el: '#month',
+          displayFormat: 'YYYY-MM'
+        });
+      </pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>A Time picker</h2>
+    <div class="component">
+      <input type="text" id="time"/>
+    </div>
+    <div class="script">
+      <pre>
+        simple.momentpicker.date({
+          el: '#time',
+          displayFormat: 'LT'
+        });
+      </pre>
+    </div>
+  </section>
+
+</div>
+<script type="text/javascript" src="vendor/bower/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="vendor/bower/simple-module/lib/module.js"></script>
+<script type="text/javascript" src="./vendor/bower/moment/min/moment-with-locales.js"></script>
+<script type="text/javascript" src="lib/momentpicker.js"></script>
+<script type="text/javascript">
+  simple.momentpicker({
+    el: '#datetime',
+    displayFormat: 'LLLL'
+  }).setDate(moment());
+
+  simple.momentpicker.date({
+    el: '#date',
+    displayFormat: 'LL'
+  }).setDate(moment());
+
+  simple.momentpicker.month({
+    el: '#month',
+    displayFormat: 'YYYY-MM'
+  }).setDate(moment());
+
+  simple.momentpicker.time({
+    el: '#time',
+    displayFormat: 'LT'
+  }).setDate(moment());
+</script>
 </body>
 
 </html>

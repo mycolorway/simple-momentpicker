@@ -38,4 +38,5 @@ class Hourview extends View
 
   _refreshInput: ->
     @input.val String('00' + @value).slice(-2)
+
 View.addView Hourview

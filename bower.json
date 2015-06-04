@@ -1,6 +1,6 @@
 {
   "name": "simple-momentpicker",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/mycolorway/simple-momentpicker",
   "authors": [
     "lcj <emlcjnil@gmail.com>"
@@ -27,6 +27,8 @@
     "jquery": "2.x",
     "simple-module": "2.x",
     "moment": "~2.x"
+  },
+  "devDependencies": {
+    "jasmine-jquery": "~2.1.0"
   }
 }
-
