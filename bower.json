@@ -6,7 +6,10 @@
     "lcj <emlcjnil@gmail.com>"
   ],
   "description": "A simple datetime picker component.",
-  "main": "lib/MomentPicker.js",
+  "main": [
+    "lib/momentpicker.js",
+    "styles/momentpicker.css"
+  ],
   "keywords": [],
   "license": "MIT",
   "ignore": [

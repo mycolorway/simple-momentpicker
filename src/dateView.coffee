@@ -140,25 +140,26 @@ class DateView extends View
     @currentMonth = tmpDate.format 'YYYY-MM'
     @triggerHandler 'select',
       source: 'date'
-      value:
-        year: tmpDate.year()
-        month: tmpDate.month()+1
+      moment: tmpDate
       finished: false
 
     @_reRenderPanel()
     @panel.addClass('active')
 
   _refreshInput: ->
-    date = moment(@value, 'YYYY-MM-DD').date()
+    date = @moment.date()
     @input.val String('00' + date).slice(-2)
 
-  _onDateChangeHandler: (e) ->
-    newMonth = moment().year(e.year).month(e.month-1).format('YYYY-MM')
+  _getValue: ->
+    @moment.format 'YYYY-MM-DD'
 
-    if e.date
-      @value = e.date
-      @_refreshSelected()
-      @_refreshInput()
+  _onDateChangeHandler: (e) ->
+    @moment = e.moment
+
+    newMonth = @moment.format('YYYY-MM')
+
+    @_refreshSelected()
+    @_refreshInput()
 
     return if newMonth is @currentMonth
 
@@ -167,8 +168,13 @@ class DateView extends View
 
   select: (value, refreshInput, finished) ->
     clearTimeout @timer if @timer
-    value = moment(@currentMonth, 'YYYY-MM').date(value).format('YYYY-MM-DD') unless value.toString().length > 2
+    @moment = moment(value, 'YYYY-MM-DD')
 
-    super(value, refreshInput, finished)
+    @_refreshSelected()
+    @_refreshInput() if refreshInput
+    @triggerHandler 'select',
+      source: @name
+      moment: @moment
+      finished: finished
 
 View.addView(DateView)

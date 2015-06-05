@@ -8,7 +8,7 @@ class YearView extends View
 
   _renderPanel: ->
     #init firstYear
-    @firstYear = Math.floor(@value/10) * 10 if @firstYear is 0
+    @firstYear = Math.floor(@_getValue()/10) * 10 if @firstYear is 0
 
     el = """
       <div class="panel panel-year">
@@ -41,8 +41,8 @@ class YearView extends View
       @select(value, false, true)
 
   _onDateChangeHandler: (event) ->
-    @value = event.year
-    newFirstYear = Math.floor(@value/10) * 10
+    @moment = event.moment
+    newFirstYear = Math.floor(@_getValue()/10) * 10
 
     @_refreshInput()
     if @firstYear is newFirstYear
@@ -53,7 +53,7 @@ class YearView extends View
 
 
   select: (value, refreshInput, finished) ->
-    newFirstYear = Math.floor(@value/10) * 10
+    newFirstYear = Math.floor(value/10) * 10
     unless @firstYear is newFirstYear
       @firstYear = newFirstYear
       @_reRenderPanel()

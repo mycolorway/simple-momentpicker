@@ -8,7 +8,7 @@ class MomentPicker extends SimpleModule
     valueFormat: 'YYYY-MM-DD HH:mm'
     displayFormat: 'YYYY-MM-DD HH:mm'
     defaultView: 'auto'
-    cls: 'datetime-picker'
+    class: 'datetime-picker'
     viewOpts:
       date:
         disableBefore: null
@@ -42,7 +42,7 @@ class MomentPicker extends SimpleModule
       </div>
     '''
     @picker = $(tpl)
-    @picker.addClass @opts.cls if @opts.cls
+    @picker.addClass @opts.class if @opts.class
     @headerContainer = @picker.find('.picker-header')
     @panelContainer = @picker.find('.picker-panels')
     @_renderViews()
@@ -76,18 +76,7 @@ class MomentPicker extends SimpleModule
           parent: @
           inputContainer: @headerContainer
           panelContainer: @panelContainer
-        opt.defaultValue = switch name
-          when 'year'
-            @date.year()
-          when 'month'
-            @date.month()+1
-          when 'date'
-            @date.format('YYYY-MM-DD')
-          when 'hour'
-            @date.hour()
-          when 'minute'
-            @date.minute()
-
+          defaultValue: @date
 
         $.extend opt, @opts['viewOpts'][name] if @opts['viewOpts'][name]
         @view[name] = new View::constructor.views[name](opt)
@@ -121,37 +110,20 @@ class MomentPicker extends SimpleModule
   _bindView: (view) ->
     view.on 'select', (e, event) =>
       source = event.source
-      newDate = event.value
-
-      if newDate.year
-        @date.year newDate.year
-
-      if newDate.month
-        @date.month newDate.month-1
-
-      if newDate.date
-        @date = moment(newDate.date, 'YYYY-MM-DD')
-        @view['year'].trigger 'datechange',
-          year: @date.year()
-        @view['month'].trigger 'datechange',
-          month: @date.month()+1
-
-      if newDate.hour isnt null
-        @date.hour newDate.hour
-
-      if newDate.minute isnt null
-        @date.minute newDate.minute
+      if source is 'date'
+        @date = event.moment
+      else
+        @date.set source, event.moment.get(event.source)
 
       switch source
         when 'year', 'month'
           @view['date']?.trigger 'datechange',
-            year: @date.year()
-            month: @date.month()+1
+            moment: @date
         when 'date'
           @view['year'].trigger 'datechange',
-            year: @date.year()
+            moment: @date
           @view['month'].trigger 'datechange',
-            month: @date.month()+1
+            moment: @date
 
       if event.finished
         index = @viewList.indexOf(source)
@@ -191,14 +163,11 @@ class MomentPicker extends SimpleModule
     @el.val @date.format(@opts.valueFormat)
     @input.val @date.format(@opts.displayFormat) if @input
 
-    @view['year']?.trigger 'datechange', {year: @date.year()}
-    @view['month']?.trigger 'datechange', {month: @date.month()+1}
-    @view['date']?.trigger 'datechange',
-      year: @date.year()
-      month: @date.month()+1
-      date: @date.format('YYYY-MM-DD')
-    @view['hour']?.trigger 'datechange', {hour: @date.hour()}
-    @view['minute']?.trigger 'datechange', {minute: @date.minute()}
+    @view['year']?.trigger 'datechange', {moment: @date}
+    @view['month']?.trigger 'datechange', {moment: @date}
+    @view['date']?.trigger 'datechange', {moment: @date}
+    @view['hour']?.trigger 'datechange', {moment: @date}
+    @view['minute']?.trigger 'datechange', {moment: @date}
 
   clear: ->
     @el.val ''
@@ -259,7 +228,7 @@ momentpicker.date = (opts) ->
     list:['year', '%-', 'month', '%-', 'date']
     displayFormat: 'YYYY-MM-DD'
     valueFormat: 'YYYY-MM-DD'
-    cls: 'date-picker'
+    class: 'date-picker'
     defaultView: 'date'
   , opts
 
@@ -270,7 +239,7 @@ momentpicker.month = (opts) ->
     list:['year', '%-', 'month']
     displayFormat: 'YYYY-MM'
     valueFormat: 'YYYY-MM'
-    cls: 'month-picker'
+    class: 'month-picker'
     defaultView: 'month'
   , opts
 
@@ -281,7 +250,7 @@ momentpicker.time = (opts) ->
     list:['hour', '%-', 'minute']
     displayFormat: 'HH时mm分'
     valueFormat: 'HH:mm'
-    cls: 'time-picker'
+    class: 'time-picker'
   , opts
 
   return new MomentPicker opts

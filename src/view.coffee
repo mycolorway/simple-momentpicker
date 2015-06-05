@@ -8,9 +8,6 @@ class View extends SimpleModule
   #view's name & moment's type
   name: ''
 
-  #View's current value
-  value: 0
-
   #template
   _inputTpl: '<input class="input"/>'
   _panelTpl: '<div class="panel"></div>'
@@ -27,7 +24,7 @@ class View extends SimpleModule
     @inputContainer = $(@opts.inputContainer)
     @panelContainer = $(@opts.panelContainer)
 
-    @value = @opts.defaultValue
+    @moment = @opts.defaultValue || moment()
 
     @_render()
     @_bindInput()
@@ -141,20 +138,22 @@ class View extends SimpleModule
 
   _refreshSelected: ->
     @panel.find('a.selected').removeClass 'selected'
-    @panel.find("a[data-value='#{@value}']").addClass 'selected'
+    @panel.find("a[data-value='#{@_getValue()}']").addClass 'selected'
 
   _refreshInput: ->
-    @input.val(@value)
+    @input.val(@_getValue())
+
+  _getValue: ->
+    @moment.get @name
 
   select: (value, refreshInput, finished) ->
-    @value = value
+    @moment.set @name, value
 
     @_refreshSelected()
     @_refreshInput() if refreshInput
     @triggerHandler 'select',
       source: @name
-      value:
-        "#{@name}": value
+      moment: @moment
       finished: finished
 
   setActive: (active = true) ->
@@ -164,6 +163,6 @@ class View extends SimpleModule
       @panel.removeClass 'active'
 
   clear: ->
-    @value = 0
+    @moment = moment()
     @input.val('')
 

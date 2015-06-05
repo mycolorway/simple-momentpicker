@@ -1,7 +1,7 @@
 describe 'Class View', ->
   View = simple.momentpicker.View
   class TestView extends View
-    name: 'test'
+    name: 'second'
 
     _inputTpl: '<input type="text" class="test-input" data-min="6" data-max="10"/>'
 
@@ -34,7 +34,7 @@ describe 'Class View', ->
   testView = new TestView
     inputContainer: $('.input-insert-point')
     panelContainer: $('.panel-insert-point')
-    defaultValue: 8
+    defaultValue: moment().second(8)
 
   $input = $parent.find('.input-insert-point input.test-input')
   $panel = $parent.find('.panel-insert-point .panel.panel-test')
@@ -97,7 +97,7 @@ describe 'Class View', ->
   it 'should add self to class View when call addview', ->
     View.addView(TestView)
 
-    expect(View::constructor.views['test']).not.toBeUndefined()
+    expect(View::constructor.views['second']).not.toBeUndefined()
 
 
 describe 'simple-momentpicker', ->

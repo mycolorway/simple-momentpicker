@@ -45,7 +45,7 @@ Designed for both mouse and keyboard intereaction.
 | valueFormat   | string                 | 'YYYY-MM-DD HH:mm'                                                 | momentjs's format string, set input's value format                                                                                |
 | displayFormat | string                 | 'YYYY-MM-DD HH:mm'                                                 | momentjs's format string, set input's display format, only available when inline false                                            |
 | defaultView   | string                 | 'auto'                                                             | default view when momentpicker shows                                                                                              |
-| cls           | string                 | 'datetime-picker'                                                  | the class name add to momentpicker dom                                                                                            |
+| class         | string                 | 'datetime-picker'                                                  | the class name add to momentpicker dom                                                                                            |
 | viewOpts      | obejct                 | -                                                                  | the options passed to views, only date's disableBefore and disableAfter provided                                                  |                                                            |
 
 To simplify configuration, we provide these method:

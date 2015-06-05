@@ -31,12 +31,12 @@ class Hourview extends View
     super(e)
 
   _onDateChangeHandler: (e) ->
-    @value = e.hour
+    @moment = e.moment
 
     @_refreshInput()
     @_refreshSelected()
 
   _refreshInput: ->
-    @input.val String('00' + @value).slice(-2)
+    @input.val String('00' + @_getValue()).slice(-2)
 
 View.addView Hourview

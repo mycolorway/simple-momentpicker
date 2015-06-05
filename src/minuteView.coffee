@@ -28,20 +28,20 @@ class MinuteView extends View
     super(e)
 
   _onDateChangeHandler: (e) ->
-    @value = e.minute
+    @moment = e.moment
 
     @_refreshInput()
     @_refreshSelected()
 
   _refreshSelected: ->
-    value = @value
+    value = @_getValue()
     value = Math.floor(value / 5) * 5
-    value += if @value % 5 >= 3 then 5 else 0
+    value += if @_getValue() % 5 >= 3 then 5 else 0
 
     @panel.find('.selected').removeClass 'selected'
     @panel.find("[data-value=#{value}]").addClass 'selected'
 
   _refreshInput: ->
-    @input.val String('00' + @value).slice(-2)
+    @input.val String('00' + @_getValue()).slice(-2)
 
 View.addView MinuteView

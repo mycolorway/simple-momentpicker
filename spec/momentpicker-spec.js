@@ -12,7 +12,7 @@
         return TestView.__super__.constructor.apply(this, arguments);
       }
 
-      TestView.prototype.name = 'test';
+      TestView.prototype.name = 'second';
 
       TestView.prototype._inputTpl = '<input type="text" class="test-input" data-min="6" data-max="10"/>';
 
@@ -32,7 +32,7 @@
     testView = new TestView({
       inputContainer: $('.input-insert-point'),
       panelContainer: $('.panel-insert-point'),
-      defaultValue: 8
+      defaultValue: moment().second(8)
     });
     $input = $parent.find('.input-insert-point input.test-input');
     $panel = $parent.find('.panel-insert-point .panel.panel-test');
@@ -106,7 +106,7 @@
     });
     return it('should add self to class View when call addview', function() {
       View.addView(TestView);
-      return expect(View.prototype.constructor.views['test']).not.toBeUndefined();
+      return expect(View.prototype.constructor.views['second']).not.toBeUndefined();
     });
   });
 

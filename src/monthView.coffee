@@ -24,18 +24,24 @@ class MonthView extends View
           @timer = null
         , 800
 
+  _getValue: ->
+    super() + 1
+
   _onKeydownHandler: (e) ->
     clearTimeout @timer if @timer
 
     super(e)
 
   _refreshInput: ->
-    @input.val String('00' + @value).slice(-2)
+    @input.val String('00' + @_getValue()).slice(-2)
 
   _onDateChangeHandler: (e) ->
-    @value = e.month
+    @moment = e.moment
     @_refreshInput()
     @_refreshSelected()
+
+  select: (value, refreshInput, finished) ->
+    super(value-1, refreshInput, finished)
 
 
 View.addView(MonthView)
