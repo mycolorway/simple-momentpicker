@@ -6,7 +6,7 @@ class MomentPicker extends SimpleModule
     el: null
     inline: false
     valueFormat: 'YYYY-MM-DD HH:mm'
-    displayFormat: 'YYYY-MM-DD HH:mm'
+    displayFormat: 'LLLL'
     defaultView: 'auto'
     class: 'datetime-picker'
     viewOpts:
@@ -226,7 +226,7 @@ momentpicker.View = View
 momentpicker.date = (opts) ->
   opts = $.extend
     list:['year', '%-', 'month', '%-', 'date']
-    displayFormat: 'YYYY-MM-DD'
+    displayFormat: 'LL'
     valueFormat: 'YYYY-MM-DD'
     class: 'date-picker'
     defaultView: 'date'
@@ -248,7 +248,7 @@ momentpicker.month = (opts) ->
 momentpicker.time = (opts) ->
   opts = $.extend
     list:['hour', '%-', 'minute']
-    displayFormat: 'HH时mm分'
+    displayFormat: 'LT'
     valueFormat: 'HH:mm'
     class: 'time-picker'
   , opts

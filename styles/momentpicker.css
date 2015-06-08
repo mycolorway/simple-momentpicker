@@ -105,6 +105,7 @@
 .simple-momentpicker .picker-panels .panel:not(.panel-date) {
   display: none;
   width: 100%;
+  white-space: initial;
 }
 .simple-momentpicker .picker-panels .panel:not(.panel-date).active {
   display: block;

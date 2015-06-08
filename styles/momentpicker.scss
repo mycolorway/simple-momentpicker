@@ -136,6 +136,7 @@ $border-color: #e7e7e7;
     .panel:not(.panel-date) {
       display: none;
       width: 100%;
+      white-space: initial;
 
       &.active {
         display: block;
