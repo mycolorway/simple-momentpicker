@@ -120,9 +120,9 @@ class MomentPicker extends SimpleModule
           @view['date']?.trigger 'datechange',
             moment: @date
         when 'date'
-          @view['year'].trigger 'datechange',
+          @view['year']?.trigger 'datechange',
             moment: @date
-          @view['month'].trigger 'datechange',
+          @view['month']?.trigger 'datechange',
             moment: @date
 
       if event.finished
