@@ -116,6 +116,7 @@ class DateView extends View
     @input.val(@input.val().substr(1)) if @input.val().length is 3 #remove leading zero
 
     value = @input.val()
+
     if value.length is 1
       if Number(value) > 3
         @select(value, false, true)
@@ -171,12 +172,21 @@ class DateView extends View
     $target = $(e.currentTarget)
 
     value = $target.data 'value'
-    date = moment(value)
+    date = moment value
     @select(date.format('D'), true, true)
 
 
   select: (value, refreshInput, finished) ->
+    tmpDate = moment(@currentMonth, 'YYYY-MM')
+    @moment.set 'date', value
+    @moment.set 'month', tmpDate.get('month')
+    @moment.set 'year', tmpDate.get('year')
     clearTimeout @timer if @timer
-    super value, refreshInput, finished
+    @_refreshSelected()
+    @_refreshInput() if refreshInput
+    @triggerHandler 'select',
+      source: @name
+      moment: @moment
+      finished: finished
 
 View.addView(DateView)
