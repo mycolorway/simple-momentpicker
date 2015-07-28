@@ -3,6 +3,7 @@
   background: #fff;
   font-size: 12px;
   display: none;
+  z-index: 300;
 }
 .simple-momentpicker.time-picker, .simple-momentpicker.date-picker, .simple-momentpicker.month-picker {
   width: 200px;
