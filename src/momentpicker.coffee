@@ -89,7 +89,6 @@ class MomentPicker extends SimpleModule
     offset = @input.offset()
     @picker.css
       'position': 'absolute'
-      'z-index': 100
       'left': offset.left
       'top': offset.top + @input.outerHeight(true)
 
