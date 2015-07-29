@@ -320,8 +320,12 @@ describe 'simple-momentpicker', ->
       el: '#timeWithValue'
     momentpicker_two = simple.momentpicker
       el: '#time'
-    momentpicker_two.setDate(momentpicker_one.getDate())
-    expect(momentpicker_one.getDate() == momentpicker_two.getDate()).toBe false
+    date_one = momentpicker_one.getDate()
+    momentpicker_two.setDate(date_one)
+
+    date_one._i = '2015-11-11'
+
+    expect(momentpicker_two.getDate()._i == '2015-11-11').toBe false
 
 
 

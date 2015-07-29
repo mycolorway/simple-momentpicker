@@ -313,7 +313,7 @@
       return $("#timeWithValue").remove();
     });
     return it("should not be shared moment object between two component", function() {
-      var momentpicker_one, momentpicker_two;
+      var date_one, momentpicker_one, momentpicker_two;
       $("<input id='timeWithValue' value='2015-01-01'>").appendTo('body');
       momentpicker_one = simple.momentpicker({
         el: '#timeWithValue'
@@ -321,8 +321,10 @@
       momentpicker_two = simple.momentpicker({
         el: '#time'
       });
-      momentpicker_two.setDate(momentpicker_one.getDate());
-      return expect(momentpicker_one.getDate() === momentpicker_two.getDate()).toBe(false);
+      date_one = momentpicker_one.getDate();
+      momentpicker_two.setDate(date_one);
+      date_one._i = '2015-11-11';
+      return expect(momentpicker_two.getDate()._i === '2015-11-11').toBe(false);
     });
   });
 
