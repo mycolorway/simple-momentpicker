@@ -177,7 +177,7 @@ class MomentPicker extends SimpleModule
 
   getDate: ->
     if @el.val()
-      @date ||= moment(@el.val(), @opts.valueFormat)
+      @date.clone() || @date = moment(@el.val(), @opts.valueFormat)
     else
       null
 
