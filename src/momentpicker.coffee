@@ -158,7 +158,7 @@ class MomentPicker extends SimpleModule
     @hide() unless @opts.inline
 
   setDate: (date) ->
-    @date = if moment.isMoment(date) then date else moment(date, @opts.valueFormat)
+    @date = if moment.isMoment(date) then date.clone() else moment(date, @opts.valueFormat)
     @el.val @date.format(@opts.valueFormat)
     @input.val @date.format(@opts.displayFormat) if @input
 
