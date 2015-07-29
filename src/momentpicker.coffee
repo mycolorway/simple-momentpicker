@@ -171,15 +171,13 @@ class MomentPicker extends SimpleModule
   clear: ->
     @el.val ''
     @input.val ''
-    @date = moment()
+    @date = null
     for name in @viewList
       @view[name].clear()
 
   getDate: ->
-    if @el.val()
-      @date.clone() || @date = moment(@el.val(), @opts.valueFormat)
-    else
-      null
+    @date ||= moment(@el.val(), @opts.valueFormat) if @el.val()
+    if @date then @date.clone() else null 
 
   show: ->
     @_setPosition() unless @opts.inline
