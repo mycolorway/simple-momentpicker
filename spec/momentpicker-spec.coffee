@@ -314,6 +314,19 @@ describe 'simple-momentpicker', ->
       .toBe true
     $("#timeWithValue").remove()
 
+  it "should not be shared moment object between two component", ->
+    $("<input id='timeWithValue' value='2015-01-01'>").appendTo 'body'
+    momentpicker_one = simple.momentpicker
+      el: '#timeWithValue'
+    momentpicker_two = simple.momentpicker
+      el: '#time'
+    date_one = momentpicker_one.getDate()
+    momentpicker_two.setDate(date_one)
+
+    date_one._i = '2015-11-11'
+
+    expect(momentpicker_two.getDate()._i == '2015-11-11').toBe false
+
 
 
 

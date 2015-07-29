@@ -302,7 +302,7 @@
       momentpicker.destroy();
       return expect($('.simple-momentpicker')).not.toExist();
     });
-    return it("should fetch date from @el by @getDate if @date is undefined", function() {
+    it("should fetch date from @el by @getDate if @date is undefined", function() {
       var date, momentpicker;
       date = "2015-01-01";
       $("<input id='timeWithValue' value='" + date + "'>").appendTo('body');
@@ -311,6 +311,20 @@
       });
       expect(momentpicker.getDate().isSame(date)).toBe(true);
       return $("#timeWithValue").remove();
+    });
+    return it("should not be shared moment object between two component", function() {
+      var date_one, momentpicker_one, momentpicker_two;
+      $("<input id='timeWithValue' value='2015-01-01'>").appendTo('body');
+      momentpicker_one = simple.momentpicker({
+        el: '#timeWithValue'
+      });
+      momentpicker_two = simple.momentpicker({
+        el: '#time'
+      });
+      date_one = momentpicker_one.getDate();
+      momentpicker_two.setDate(date_one);
+      date_one._i = '2015-11-11';
+      return expect(momentpicker_two.getDate()._i === '2015-11-11').toBe(false);
     });
   });
 

@@ -82,5 +82,5 @@ Please refer to demo to get more details.
 
 - select
 
-	triggered when selected a date/time, the only argument is a moment object which represents selected date.
+	triggered when selected a date/time, the only argument is an event object.
 	
