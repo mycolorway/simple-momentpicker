@@ -167,20 +167,11 @@ class DateView extends View
     @currentMonth = newMonth
     @_reRenderPanel()
 
-  _onClickHandler: (e) ->
-    e.preventDefault()
-    $target = $(e.currentTarget)
-
-    value = $target.data 'value'
-    date = moment value
-    @select(date.format('D'), true, true)
-
-
   select: (value, refreshInput, finished) ->
-    tmpDate = moment(@currentMonth, 'YYYY-MM')
-    @moment.set 'date', value
-    @moment.set 'month', tmpDate.get('month')
-    @moment.set 'year', tmpDate.get('year')
+    tmpMoment = moment(value)
+    if tmpMoment.format('M') != @currentMonth
+      @moment.set 'month', tmpMoment.format('M')-1
+    @moment.set @name, tmpMoment.format('D')
     clearTimeout @timer if @timer
     @_refreshSelected()
     @_refreshInput() if refreshInput
