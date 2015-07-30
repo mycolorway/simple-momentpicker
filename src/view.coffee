@@ -147,8 +147,11 @@ class View extends SimpleModule
     @moment.get @name
 
   select: (value, refreshInput, finished) ->
+    if @name == 'date'
+      moment = window.moment(value)
+      @moment.set('month', moment.format('M') - 1) if moment.format('M') != @moment.format('M')
+      value = moment.format('D')
     @moment.set @name, value
-
     @_refreshSelected()
     @_refreshInput() if refreshInput
     @triggerHandler 'select',
