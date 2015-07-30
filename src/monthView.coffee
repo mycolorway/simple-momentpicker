@@ -35,13 +35,8 @@ class MonthView extends View
   _refreshInput: ->
     @input.val String('00' + @_getValue()).slice(-2)
 
-  _onDateChangeHandler: (e) ->
-    @moment = e.moment
-    @_refreshInput()
-    @_refreshSelected()
-
   select: (value, refreshInput, finished) ->
-    super(value-1, refreshInput, finished)
+    super(value - 1, refreshInput, finished)
 
 
 View.addView(MonthView)

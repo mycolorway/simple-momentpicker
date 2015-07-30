@@ -27,12 +27,6 @@ class MinuteView extends View
 
     super(e)
 
-  _onDateChangeHandler: (e) ->
-    @moment = e.moment
-
-    @_refreshInput()
-    @_refreshSelected()
-
   _refreshSelected: ->
     value = @_getValue()
     value = Math.floor(value / 5) * 5

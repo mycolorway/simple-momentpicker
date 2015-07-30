@@ -12,6 +12,7 @@ class DateView extends View
 
   _inputTpl: '<input type="text" class="view-input date-input" data-type="date" data-min="1"/>'
 
+  dateReg: /\d{4}-\d{1,2}-\d{1,2}/
 
   _renderPanel: ->
     week = ''
@@ -155,12 +156,8 @@ class DateView extends View
     @moment.format 'YYYY-MM-DD'
 
   _onDateChangeHandler: (e) ->
-    @moment = e.moment
-
+    super(e)
     newMonth = @moment.format('YYYY-MM')
-
-    @_refreshSelected()
-    @_refreshInput()
 
     return if newMonth is @currentMonth
 
@@ -168,16 +165,15 @@ class DateView extends View
     @_reRenderPanel()
 
   select: (value, refreshInput, finished) ->
-    tmpMoment = moment(value)
-    if tmpMoment.format('M') != @currentMonth
-      @moment.set 'month', tmpMoment.format('M') - 1
-    @moment.set @name, tmpMoment.format('D')
+    if @dateReg.test value
+      tmpMoment = moment(value)
+      currentMoment = moment(@currentMonth, 'YYYY-MM')
+      if tmpMoment.format('M') != currentMoment.format('M')
+        @moment.set 'month', tmpMoment.format('M') - 1
+      if tmpMoment.format('YYYY') != currentMoment.format('YYYY')
+        @moment.set 'year', tmpMoment.format('YYYY')
+      value = tmpMoment.format('D')
     clearTimeout @timer if @timer
-    @_refreshSelected()
-    @_refreshInput() if refreshInput
-    @triggerHandler 'select',
-      source: @name
-      moment: @moment
-      finished: finished
+    super(value, refreshInput, finished)
 
 View.addView(DateView)

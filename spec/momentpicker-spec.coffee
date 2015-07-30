@@ -9,18 +9,15 @@ describe 'Class View', ->
       """
       <div class="panel panel-test">
         <a class="menu-item" data-action="testAction"></a>
-        <a class="panel-item" data-value='6' id="testClick">6</a>
-        <a class="panel-item" data-value='7' id="testClick">7</a>
-        <a class="panel-item" data-value='8' id="testClick">8</a>
-        <a class="panel-item" data-value='9' id="testClick">9</a>
-        <a class="panel-item" data-value='10' id="testClick">10</a>
+        <a class="panel-item" data-value='6'>6</a>
+        <a class="panel-item" data-value='7'>7</a>
+        <a class="panel-item" data-value='8'>8</a>
+        <a class="panel-item" data-value='9'>9</a>
+        <a class="panel-item" data-value='10'>10</a>
       </div>
       """
 
     _handleAction: (action) ->
-
-    _onDateChangeHandler: ->
-
 
   tpl = """
     <div class='test-view'>
@@ -83,7 +80,8 @@ describe 'Class View', ->
 
   it 'should handle datechange when trigger datechange event', ->
     spyDatechange = spyOn(testView, '_onDateChangeHandler').and.callThrough()
-    testView.trigger('datechange')
+    testView.trigger 'datechange',
+      moment: moment()
 
     expect(spyDatechange).toHaveBeenCalled()
 

@@ -17,12 +17,10 @@
       TestView.prototype._inputTpl = '<input type="text" class="test-input" data-min="6" data-max="10"/>';
 
       TestView.prototype._renderPanel = function() {
-        return "<div class=\"panel panel-test\">\n  <a class=\"menu-item\" data-action=\"testAction\"></a>\n  <a class=\"panel-item\" data-value='6' id=\"testClick\">6</a>\n  <a class=\"panel-item\" data-value='7' id=\"testClick\">7</a>\n  <a class=\"panel-item\" data-value='8' id=\"testClick\">8</a>\n  <a class=\"panel-item\" data-value='9' id=\"testClick\">9</a>\n  <a class=\"panel-item\" data-value='10' id=\"testClick\">10</a>\n</div>";
+        return "<div class=\"panel panel-test\">\n  <a class=\"menu-item\" data-action=\"testAction\"></a>\n  <a class=\"panel-item\" data-value='6'>6</a>\n  <a class=\"panel-item\" data-value='7'>7</a>\n  <a class=\"panel-item\" data-value='8'>8</a>\n  <a class=\"panel-item\" data-value='9'>9</a>\n  <a class=\"panel-item\" data-value='10'>10</a>\n</div>";
       };
 
       TestView.prototype._handleAction = function(action) {};
-
-      TestView.prototype._onDateChangeHandler = function() {};
 
       return TestView;
 
@@ -95,7 +93,9 @@
     it('should handle datechange when trigger datechange event', function() {
       var spyDatechange;
       spyDatechange = spyOn(testView, '_onDateChangeHandler').and.callThrough();
-      testView.trigger('datechange');
+      testView.trigger('datechange', {
+        moment: moment()
+      });
       return expect(spyDatechange).toHaveBeenCalled();
     });
     it('should set active when class setActive', function() {
