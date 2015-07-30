@@ -170,7 +170,7 @@ class DateView extends View
   select: (value, refreshInput, finished) ->
     tmpMoment = moment(value)
     if tmpMoment.format('M') != @currentMonth
-      @moment.set 'month', tmpMoment.format('M')-1
+      @moment.set 'month', tmpMoment.format('M') - 1
     @moment.set @name, tmpMoment.format('D')
     clearTimeout @timer if @timer
     @_refreshSelected()
