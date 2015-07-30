@@ -77,7 +77,6 @@ class MomentPicker extends SimpleModule
           inputContainer: @headerContainer
           panelContainer: @panelContainer
           defaultValue: @date
-
         $.extend opt, @opts['viewOpts'][name] if @opts['viewOpts'][name]
         @view[name] = new View::constructor.views[name](opt)
         @viewList.push name
