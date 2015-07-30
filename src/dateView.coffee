@@ -166,15 +166,6 @@ class DateView extends View
     @currentMonth = newMonth
     @_reRenderPanel()
 
-  _onClickHandler: (e) ->
-    e.preventDefault()
-    $target = $(e.currentTarget)
-
-    value = $target.data 'value'
-    date = moment(value)
-    @select(date.format('D'), true, true)
-
-
   select: (value, refreshInput, finished) ->
     clearTimeout @timer if @timer
     super value, refreshInput, finished
