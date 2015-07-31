@@ -131,7 +131,6 @@ class DateView extends View
 
   _onKeydownHandler: (e) ->
     clearTimeout @timer if @timer
-
     super(e)
 
   _handleAction: (action) ->
@@ -148,6 +147,16 @@ class DateView extends View
     @_reRenderPanel()
     @panel.addClass('active')
 
+  _onClickHandler: (e) ->
+    e.preventDefault()
+    value = $(e.currentTarget).data 'value'
+    tmpMoment = moment(value)
+    currentMoment = moment(@currentMonth, 'YYYY-MM')
+    @moment.set 'month', tmpMoment.format('M') - 1 if tmpMoment.format('M') isnt currentMoment.format('M')
+    @moment.set 'year', tmpMoment.format('YYYY') if tmpMoment.format('YYYY') isnt currentMoment.format('YYYY')
+    value = tmpMoment.format('D')
+    @select(value, true, true)
+
   _refreshInput: ->
     date = @moment.date()
     @input.val String('00' + date).slice(-2)
@@ -158,21 +167,12 @@ class DateView extends View
   _onDateChangeHandler: (e) ->
     super(e)
     newMonth = @moment.format('YYYY-MM')
-
+    
     return if newMonth is @currentMonth
-
     @currentMonth = newMonth
     @_reRenderPanel()
 
   select: (value, refreshInput, finished) ->
-    if @dateReg.test value
-      tmpMoment = moment(value)
-      currentMoment = moment(@currentMonth, 'YYYY-MM')
-      if tmpMoment.format('M') != currentMoment.format('M')
-        @moment.set 'month', tmpMoment.format('M') - 1
-      if tmpMoment.format('YYYY') != currentMoment.format('YYYY')
-        @moment.set 'year', tmpMoment.format('YYYY')
-      value = tmpMoment.format('D')
     clearTimeout @timer if @timer
     super(value, refreshInput, finished)
 

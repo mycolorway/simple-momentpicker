@@ -106,7 +106,6 @@ class View extends SimpleModule
     value = $(e.currentTarget).data 'value'
     @select(value, true, true)
 
-
   _handleAction: ->
 
   _bindView: ->
@@ -118,6 +117,7 @@ class View extends SimpleModule
 
     @_refreshInput()
     @_refreshSelected()
+
   _renderInput: ->
     @_inputTpl
 
