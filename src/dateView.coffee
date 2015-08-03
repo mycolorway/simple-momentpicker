@@ -151,9 +151,8 @@ class DateView extends View
     e.preventDefault()
     value = $(e.currentTarget).data 'value'
     tmpMoment = moment(value)
-    currentMoment = moment(@currentMonth, 'YYYY-MM')
-    @moment.set 'month', tmpMoment.format('M') - 1 if tmpMoment.format('M') isnt currentMoment.format('M')
-    @moment.set 'year', tmpMoment.format('YYYY') if tmpMoment.format('YYYY') isnt currentMoment.format('YYYY')
+    @moment.set 'month', tmpMoment.format('M') - 1
+    @moment.set 'year', tmpMoment.format('YYYY')
     value = tmpMoment.format('D')
     @select(value, true, true)
 

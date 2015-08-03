@@ -24,7 +24,6 @@ class MomentPicker extends SimpleModule
     unless @el.length
       throw 'simple momentpicker: option el is required'
       return
-
     @el.data 'momentpicker', @
     val = @el.val() || moment()
     @date = if moment.isMoment(val) then val else moment(val, @opts.valueFormat)
