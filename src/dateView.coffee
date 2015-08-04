@@ -12,6 +12,7 @@ class DateView extends View
 
   _inputTpl: '<input type="text" class="view-input date-input" data-type="date" data-min="1"/>'
 
+  dateReg: /\d{4}-\d{1,2}-\d{1,2}/
 
   _renderPanel: ->
     week = ''
@@ -130,7 +131,6 @@ class DateView extends View
 
   _onKeydownHandler: (e) ->
     clearTimeout @timer if @timer
-
     super(e)
 
   _handleAction: (action) ->
@@ -147,6 +147,15 @@ class DateView extends View
     @_reRenderPanel()
     @panel.addClass('active')
 
+  _onClickHandler: (e) ->
+    e.preventDefault()
+    value = $(e.currentTarget).data 'value'
+    tmpMoment = moment(value)
+    @moment.set 'month', tmpMoment.format('M') - 1
+    @moment.set 'year', tmpMoment.format('YYYY')
+    value = tmpMoment.format('D')
+    @select(value, true, true)
+
   _refreshInput: ->
     date = @moment.date()
     @input.val String('00' + date).slice(-2)
@@ -155,38 +164,15 @@ class DateView extends View
     @moment.format 'YYYY-MM-DD'
 
   _onDateChangeHandler: (e) ->
-    @moment = e.moment
-
+    super(e)
     newMonth = @moment.format('YYYY-MM')
-
-    @_refreshSelected()
-    @_refreshInput()
-
+    
     return if newMonth is @currentMonth
-
     @currentMonth = newMonth
     @_reRenderPanel()
 
-  _onClickHandler: (e) ->
-    e.preventDefault()
-    $target = $(e.currentTarget)
-
-    value = $target.data 'value'
-    date = moment value
-    @select(date.format('D'), true, true)
-
-
   select: (value, refreshInput, finished) ->
-    tmpDate = moment(@currentMonth, 'YYYY-MM')
-    @moment.set 'date', value
-    @moment.set 'month', tmpDate.get('month')
-    @moment.set 'year', tmpDate.get('year')
     clearTimeout @timer if @timer
-    @_refreshSelected()
-    @_refreshInput() if refreshInput
-    @triggerHandler 'select',
-      source: @name
-      moment: @moment
-      finished: finished
+    super(value, refreshInput, finished)
 
 View.addView(DateView)

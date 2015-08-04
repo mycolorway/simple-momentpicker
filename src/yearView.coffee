@@ -53,11 +53,6 @@ class YearView extends View
 
 
   select: (value, refreshInput, finished) ->
-    newFirstYear = Math.floor(value/10) * 10
-    unless @firstYear is newFirstYear
-      @firstYear = newFirstYear
-      @_reRenderPanel()
-
     super(value, refreshInput, finished)
 
 View.addView(YearView)

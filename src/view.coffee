@@ -64,7 +64,6 @@ class View extends SimpleModule
     type = @input.data 'type'
     min = @input.data 'min'
     max = @input.data 'max'
-
     if key is 9 #tab
       if e.shiftKey
         @trigger 'showpanel',
@@ -99,18 +98,13 @@ class View extends SimpleModule
 
     @panel.on 'click', 'a.menu-item', (e) =>
       e.preventDefault()
-      $target = $(e.currentTarget)
-
-      action = $target.data 'action'
+      action = $(e.currentTarget).data 'action'
       @_handleAction(action)
 
   _onClickHandler: (e) ->
     e.preventDefault()
-    $target = $(e.currentTarget)
-
-    value = $target.data 'value'
+    value = $(e.currentTarget).data 'value'
     @select(value, true, true)
-
 
   _handleAction: ->
 
@@ -118,7 +112,11 @@ class View extends SimpleModule
     @on 'datechange', (e, event) =>
       @_onDateChangeHandler(event)
 
-  _onDateChangeHandler: ->
+  _onDateChangeHandler: (e)->
+    @moment = e.moment
+
+    @_refreshInput()
+    @_refreshSelected()
 
   _renderInput: ->
     @_inputTpl
@@ -148,13 +146,12 @@ class View extends SimpleModule
 
   select: (value, refreshInput, finished) ->
     @moment.set @name, value
-
-    @_refreshSelected()
-    @_refreshInput() if refreshInput
     @triggerHandler 'select',
       source: @name
       moment: @moment
       finished: finished
+    @triggerHandler 'datechange',
+      moment: @moment
 
   setActive: (active = true) ->
     if active
