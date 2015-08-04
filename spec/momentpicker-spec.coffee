@@ -324,7 +324,14 @@ describe 'simple-momentpicker', ->
     date_one._i = '2015-11-11'
 
     expect(momentpicker_two.getDate()._i == '2015-11-11').toBe false
+    momentpicker_one?.destroy()
+    $('#timeWithValue').remove()
 
-
-
-
+  it "should render right panel when @el has default value", ->
+    $("<input id='timeWithValue' value='2015-01-01'>").appendTo 'body'
+    picker = simple.momentpicker
+      el: '#timeWithValue'
+    $(".momentpicker-input").trigger "click"
+    expect($("a[data-value='2015-01-15']")).toExist()
+    picker?.destroy()
+    $('#timeWithValue').remove()

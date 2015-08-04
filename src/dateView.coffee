@@ -1,7 +1,7 @@
 class DateView extends View
   name: 'date'
 
-  currentMonth: moment().format 'YYYY-MM'
+  currentMonth: null
 
   opts:
     el: null
@@ -13,6 +13,10 @@ class DateView extends View
   _inputTpl: '<input type="text" class="view-input date-input" data-type="date" data-min="1"/>'
 
   dateReg: /\d{4}-\d{1,2}-\d{1,2}/
+
+  _render: ->
+    @currentMonth = @moment.format 'YYYY-MM'
+    super()
 
   _renderPanel: ->
     week = ''
