@@ -14,12 +14,15 @@ class MomentPicker extends SimpleModule
         disableBefore: null
         disableAfter: null
 
+  @_count = 0
 
   _init: ->
     @view = []
     @viewList = []
 
     @el = $(@opts.el)
+
+    @id = ++ MomentPicker._count
 
     unless @el.length
       throw 'simple momentpicker: option el is required'
@@ -96,10 +99,10 @@ class MomentPicker extends SimpleModule
       false
 
     return if @opts.inline
-    @input.on 'focus.momentpicker', =>
+    @input.on "focus.momentpicker-#{@id}", =>
       @show()
 
-    $(document).on 'click.momentpicker', (e) =>
+    $(document).on "click.momentpicker-#{@id}", (e) =>
       return if @input.is e.target
       return if @picker.has(e.target).length
       return if @picker.is e.target
@@ -211,7 +214,7 @@ class MomentPicker extends SimpleModule
     unless @opts.inline
       @input.remove()
       @el.show()
-      $(document).off '.momentpicker'
+      $(document).off ".momentpicker-#{@id}"
 
 
 momentpicker = (opts) ->
