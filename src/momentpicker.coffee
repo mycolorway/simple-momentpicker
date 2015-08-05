@@ -99,7 +99,7 @@ class MomentPicker extends SimpleModule
       false
 
     return if @opts.inline
-    @input.on "focus.momentpicker-#{@id}", =>
+    @input.on "focus.momentpicker", =>
       @show()
 
     $(document).on "click.momentpicker-#{@id}", (e) =>
