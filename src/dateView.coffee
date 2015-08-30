@@ -38,18 +38,15 @@ class DateView extends View
 
   _renderDaySelectors: ->
     today = moment().startOf("day")
-    tmpDate = moment(@moment, 'YYYY-MM-DD')
-
-    # @el.attr
-    #   'data-max': tmpDate.endOf('month').date()
+    selectDate = moment(@el.val(), @opts.format)
 
     # Calculate the first and last date in month being rendered.
     # Also calculate the weekday to start rendering on
-    firstDate = tmpDate.clone().startOf("month")
-    lastDate = tmpDate.clone().endOf("month")
+    firstDate = @moment.clone().startOf("month")
+    lastDate = @moment.clone().endOf("month")
 
     # Calculate the last day in previous month
-    prevLastDate = tmpDate.clone().add(-1, "months").endOf("month")
+    prevLastDate = @moment.clone().add(-1, "months").endOf("month")
 
     # Render the cells as <TD>
     days = ""
@@ -64,15 +61,14 @@ class DateView extends View
         p = ((prevLastDate.date() - prevLastDate.day()) + i + 1)
         n = p - prevLastDate.date()
         c = (if (x is 6) then "sun" else ((if (x is 5) then "sat" else "day")))
-        date = tmpDate.clone().date(n)
+        date = @moment.clone().date(n)
 
 
         # If value is outside of bounds its likelym previous and next months
         if n >= 1 and n <= lastDate.date()
           # Test to see if it's today
           c += ' today' if (today.isSame(date, 'day') is true)
-
-          c += (if(date.diff(@moment) is 0) then " selected" else " ")  if @moment
+          c += (if(date.diff(selectDate, 'days') is 0) then " selected" else "")  if @moment
         else if n > lastDate.date() and x is 0
           break
         else

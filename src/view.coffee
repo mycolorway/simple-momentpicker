@@ -35,7 +35,7 @@ class View extends SimpleModule
     @_bindEl()
     @_bindPanel()
 
-    $(document).on "click.momentpicker_#{@id}", (e)=>
+    $(document).on "mousedown.momentpicker_#{@id}", (e)=>
       return if @el.is(e.target) or !!@panel.has(e.target).length or @panel.is(e.target)
       @hide()
 
@@ -55,7 +55,6 @@ class View extends SimpleModule
       @_menuItemHandler(e)
     .on 'click', '.panel-item', (e)=>
       e.stopPropagation()
-      console.log 'panel-item click'
       @_panelItemHandler(e)
 
   _menuItemHandler: ->
@@ -71,15 +70,13 @@ class View extends SimpleModule
       moment: @moment.clone()
 
   _setActive: ->
-    if @verifyValue()
-      @_reRenderPanel()
+    @_reRenderPanel()
 
   verifyValue: ->
     new_moment = moment(@el.val(), @opts.format)
     if new_moment.isValid()
       @moment = new_moment
     @_setElValue()
-    return new_moment.isValid()
 
   show: ->
     @_setActive()

@@ -102,6 +102,8 @@ class MomentPicker extends SimpleModule
   getValue: ->
     @moment.format(@opts.valueFormat)
 
+  setMoment: (moment)->
+    @moment = moment(moment, @opts.valueFormat)
 
 momentpicker = (opts) ->
   new MomentPicker opts
