@@ -1,102 +1,61 @@
+$cur-color: #ffe451;
+$bg-color: #f3f3f3;
 $hover-color: #cbe0ff;
 $selected-color: #cce5f1;
 $border-color: #e7e7e7;
 
 .simple-momentpicker {
-  width: 250px;
+  width: 150px;
   background: #fff;
   font-size: 12px;
   display: none;
   z-index: 300;
 
-  &.time-picker, &.date-picker, &.month-picker {
-      width: 200px;
-  }
-
   a {
     text-decoration: none;
   }
 
-  .picker-header {
-    text-align: center;
-    padding: 10px;
-    border-bottom: 1px solid $border-color;
-
-    .view-input {
-      display: inline-block;
-      outline: 0;
-      text-align: center;
-
-      &.year-input {
-        width: 15%;
-      }
-      &.month-input {
-        width: 8%;
-      }
-      &.date-input {
-        width: 8%;
-      }
-      &.hour-input, &.minute-input {
-        width: 8%;
-      }
-    }
-
-    span {
-      &:last-child {
-        margin-right: 0;
-      }
-      margin: 0 5px;
-    }
-  }
-
-  .picker-panels {
-
-    .panel-date {
-      width: 100%;
-      display: none;
-
-      &.active {
-        display: table;
-      }
-
-      .calendar-menu {
-        .menu-item {
-          width: 50%;
-          padding: 5px 0;
-          text-align: center;
-          float: left;
-          box-sizing: border-box;
-          cursor: pointer;
-
-          &:hover {
-            background: $hover-color;
-          }
+  &.date-picker {
+    .calendar-menu {
+      .menu-item {
+        display: block;
+        width: 25%;
+        padding: 5px 0;
+        text-align: center;
+        box-sizing: border-box;
+        cursor: pointer;
+        float:left;
+        &:hover {
+          background: $hover-color;
         }
       }
-
-
-      table {
-        width: 100%;
+      .cur-month {
+        display: block;
+        padding: 5px 0;
+        text-align: center;
+        box-sizing: border-box;
+        width: 50%;
+        float:left;
+        font-weight: bolder;
       }
+    }
 
-      table td {
+    table.calendar {
+      width: 100%;
+      tr.datepicker-dow {
+        color: #999;
+      }
+      td {
         width: 24px;
         line-height: 24px;
         margin: 0;
         padding: 0;
         text-align: center;
         vertical-align: middle;
-      }
-
-      table.calendar {
-        .datepicker-dow {
-          color: #999;
-        }
-
-        .datepicker-day a {
+        &.datepicker-day a {
           display: block;
           height: 100%;
-          background: #f3f3f3;
+          background: $bg-color;
           color: #333;
           border-bottom: 2px solid #fff;
           -webkit-text-shadow: 0 1px 0 white;
@@ -104,7 +63,7 @@ $border-color: #e7e7e7;
           text-shadow: 0 1px 0 white;
 
           &.today {
-            background: #ffe451;
+            background: $cur-color;
           }
 
           &.others {
@@ -127,63 +86,112 @@ $border-color: #e7e7e7;
             pointer-events: none;
           }
         }
-        .datepicker-month a {
-          display: block;
+      }
+    }
+  }
+
+  &.time-picker {
+    height: 160px;
+    .hour-panel {
+      width: 60%;
+      height: 100%;
+      overflow-y: scroll;
+      float: left;
+      padding-right: 10px;
+      box-sizing: border-box;
+      a.panel-item {
+        margin: 2px 0;
+        padding-right: 10px;
+        background-color: $bg-color;
+        display: block;
+        text-align: right;
+        cursor: pointer;
+        &.selected {
+          background-color: $selected-color;
+        }
+        &.cur {
+          background-color: $cur-color;
+        }
+        &:hover {
+          background-color: $hover-color;
         }
       }
     }
-
-
-    .panel:not(.panel-date) {
-      display: none;
-      width: 100%;
-      white-space: initial;
-
-      &.active {
-        display: block;
-      }
-
+    .quarter-panel {
+      display: block;
+      float: left;
+      width: 40%;
+      height: 100%;
+      box-sizing: border-box;
       a.panel-item {
-        display: inline-block;
         box-sizing: border-box;
-        margin: 0;
-        width: 25%;
-        text-align: center;
-        padding: 10px;
+        background-color: $bg-color;
+        margin: 2px 0;
+        padding-left: 5px;
+        display: block;
+        height: 38px;
+        line-height: 38px;
+        width: 100%;
         cursor: pointer;
-
-        &:hover {
-          background: $hover-color;
-        }
-
         &.selected {
-          background: $selected-color;
+          background-color: $selected-color;
+        }
+        &.cur {
+          background-color: $cur-color;
+        }
+        &:hover {
+          background-color: $hover-color;
         }
       }
-
-      a.menu-item {
-        width: 50%;
+    }
+  }
+  &.month-picker {
+    .calendar-menu {
+      .menu-item {
+        display: block;
+        width: 25%;
         padding: 5px 0;
         text-align: center;
-        float: left;
         box-sizing: border-box;
         cursor: pointer;
-
+        float:left;
         &:hover {
           background: $hover-color;
         }
       }
-
-      &.panel-hour {
-        a.panel-item {
-          width: 16.66%;
-          padding: 6px 8px;
-
-          &:nth-child(n + 7):not(:nth-child(n + 13)) {
-            border-bottom: 1px dashed #dfdfdf;
-          }
+      .cur-month {
+        display: block;
+        padding: 5px 0;
+        text-align: center;
+        box-sizing: border-box;
+        width: 50%;
+        float:left;
+        font-weight: bolder;
+      }
+    }
+    .calendar-panel {
+      a.panel-item {
+        display: block;
+        float: left;
+        width: 23%;
+        margin: 1%;
+        box-sizing: border-box;
+        background-color: $bg-color;
+        height: 38px;
+        line-height: 38px;
+        text-align: center;
+        cursor: pointer;
+        &.cur {
+          background-color: $cur-color;
+        }
+        &.selected {
+          background-color: $selected-color;
+        }
+        &:hover {
+          background-color: $hover-color;
         }
       }
     }
   }
 }
+

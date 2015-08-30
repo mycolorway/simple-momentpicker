@@ -1,29 +1,21 @@
 class DateView extends View
   name: 'date'
 
-  currentMonth: null
-
   opts:
     el: null
     disableBefore: null
     disableAfter: null
 
-  value: moment().format 'YYYY-MM-DD'
-
-  _inputTpl: '<input type="text" class="view-input date-input" data-type="date" data-min="1"/>'
-
-  dateReg: /\d{4}-\d{1,2}-\d{1,2}/
-
-  _render: ->
-    @currentMonth = @moment.format 'YYYY-MM'
-    super()
+  panelTpl: """
+    <div class="simple-momentpicker date-picker">
+    </div>
+  """
 
   _renderPanel: ->
     week = ''
     for i in [1, 2, 3, 4, 5, 6 ,0]
       week += "<td>#{moment.weekdaysMin(i)}</td>"
     return """
-      <div class="panel panel-date">
         <div class="calendar-menu">
           #{ @_renderDayMenu() }
         </div>
@@ -33,22 +25,23 @@ class DateView extends View
           </tr>
           #{ @_renderDaySelectors() }
         </table>
-      </div>
     """
 
   _renderDayMenu: ->
+    month = @moment.format('YYYY.MM')
     return """
       <a class="menu-item" data-action="prev"><i class="icon-chevron-left"><span>&lt;</span></i></a>
+      <span class="cur-month">#{month}</span>
       <a class="menu-item" data-action="next"><i class="icon-chevron-right"><span>&gt;</span></i></a>
     """
 
 
   _renderDaySelectors: ->
     today = moment().startOf("day")
-    tmpDate = moment(@currentMonth, 'YYYY-MM')
+    tmpDate = moment(@moment, 'YYYY-MM-DD')
 
-    @input.attr
-      'data-max': tmpDate.endOf('month').date()
+    # @el.attr
+    #   'data-max': tmpDate.endOf('month').date()
 
     # Calculate the first and last date in month being rendered.
     # Also calculate the weekday to start rendering on
@@ -73,13 +66,13 @@ class DateView extends View
         c = (if (x is 6) then "sun" else ((if (x is 5) then "sat" else "day")))
         date = tmpDate.clone().date(n)
 
+
         # If value is outside of bounds its likelym previous and next months
         if n >= 1 and n <= lastDate.date()
           # Test to see if it's today
           c += ' today' if (today.isSame(date, 'day') is true)
 
-          # Test against selected date
-          c += (if (date.diff(@selectedDate) is 0) then " selected" else " ")  if @selectedDate
+          c += (if(date.diff(@moment) is 0) then " selected" else " ")  if @moment
         else if n > lastDate.date() and x is 0
           break
         else
@@ -113,70 +106,16 @@ class DateView extends View
       y++
     return days
 
-
-  _onInputHandler: ->
-    max = moment(@currentMonth, 'YYYY-MM').endOf('month').date()
-    @input.val(@input.val().substr(1)) while Number(@input.val()) > max
-
-    @input.val(@input.val().substr(1)) if @input.val().length is 3 #remove leading zero
-
-    value = @input.val()
-
-    if value.length is 1
-      if Number(value) > 3
-        @select(value, false, true)
-      else if Number(value) isnt 0
-        @timer = setTimeout =>
-          @select(value, false, true)
-          @timer = null
-        , 800
-    else if value.length is 2 and Number(value) <= max and Number(value) isnt 0
-      @select(value, false, true)
-
-  _onKeydownHandler: (e) ->
-    clearTimeout @timer if @timer
-    super(e)
-
-  _handleAction: (action) ->
-    tmpDate = moment(@currentMonth, 'YYYY-MM')
-    direction = if action is 'prev' then -1 else 1
-
-    tmpDate.add(direction, 'month')
-    @currentMonth = tmpDate.format 'YYYY-MM'
-    @triggerHandler 'select',
-      source: 'date'
-      moment: tmpDate
-      finished: false
-
-    @_reRenderPanel()
-    @panel.addClass('active')
-
-  _onClickHandler: (e) ->
-    e.preventDefault()
-    value = $(e.currentTarget).data 'value'
-    tmpMoment = moment(value)
-    @moment.set 'month', tmpMoment.format('M') - 1
-    @moment.set 'year', tmpMoment.format('YYYY')
-    value = tmpMoment.format('D')
-    @select(value, true, true)
-
-  _refreshInput: ->
-    date = @moment.date()
-    @input.val String('00' + date).slice(-2)
-
-  _getValue: ->
-    @moment.format 'YYYY-MM-DD'
-
-  _onDateChangeHandler: (e) ->
-    super(e)
-    newMonth = @moment.format('YYYY-MM')
-    
-    return if newMonth is @currentMonth
-    @currentMonth = newMonth
+  _menuItemHandler: (e)->
+    action = $(e.currentTarget).data('action')
+    num = if action == 'next' then 1 else -1
+    @moment.add(num, 'month')
     @_reRenderPanel()
 
-  select: (value, refreshInput, finished) ->
-    clearTimeout @timer if @timer
-    super(value, refreshInput, finished)
+  _panelItemHandler: (e)->
+    value = $(e.currentTarget).data('value')
+    @moment = moment(value, 'YYYY-MM-DD')
+    @_setElValue()
+    @hide()
 
 View.addView(DateView)

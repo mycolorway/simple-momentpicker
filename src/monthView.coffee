@@ -1,42 +1,54 @@
 class MonthView extends View
   name: 'month'
 
-  _inputTpl: '<input type="text" class="view-input month-input" data-type="month" data-min="1" data-max="12"/>'
+  panelTpl: """
+    <div class="simple-momentpicker month-picker">
+    <div>
+  """
+
+  _init: ->
+    super()
+    @moment.set('date', 1)
 
   _renderPanel: ->
+    menu = @_renderMenu()
+    panel = @_renderMonthPanel()
+    """
+      <div class="calendar-menu">#{menu}</div>
+      <div class="calendar-panel">#{panel}</div>
+    """
+
+  _renderMenu: ->
+    year = @moment.format('YYYY')
+    """
+      <a class="menu-item" data-action="prev"><i class="icon-chevron-left"><span>&lt;</span></i></a>
+      <span class="cur-month">#{year}</span>
+      <a class="menu-item" data-action="next"><i class="icon-chevron-right"><span>&gt;</span></i></a>
+    """
+
+  _renderMonthPanel: ->
+    cur_month = moment().format('YYYY-M')
+    selected_month = moment(@el.val(), @opts.format).format('YYYY-M')
     el = ''
-    for month in [1..12]
-      el += "<a class='panel-item' data-value='#{month}'>#{String('00' + month).slice(-2)}</a>"
+    for month in [0..11]
+      cls = ''
+      if cur_month == @moment.format('YYYY-') + ( month + 1 )
+        cls += ' cur'
+      if selected_month == @moment.format('YYYY-') + ( month + 1 )
+        cls += ' selected'
+      el += "<a class='#{cls} panel-item' data-value='#{month}'>#{month + 1}</a>"
+    el
 
-    $(@_panelTpl).html(el).addClass 'panel-month'
+  _menuItemHandler: (e)->
+    action = $(e.currentTarget).data('action')
+    num = if action == 'next' then 1 else -1
+    @moment.add(num, 'year')
+    @_reRenderPanel()
 
-  _onInputHandler: ->
-    @input.val(@input.val().substr(1)) while Number(@input.val()) > 12
-    value = @input.val()
-    if value.length is 2 and Number(value) isnt 0
-      @select(value, false, true)
-    else if value.length is 1
-      if Number(value) >= 2
-        @select(value, false, true)
-      else if Number(value) is 1
-        @timer = setTimeout =>
-          @select(value, false, true)
-          @timer = null
-        , 800
-
-  _getValue: ->
-    super() + 1
-
-  _onKeydownHandler: (e) ->
-    clearTimeout @timer if @timer
-
-    super(e)
-
-  _refreshInput: ->
-    @input.val String('00' + @_getValue()).slice(-2)
-
-  select: (value, refreshInput, finished) ->
-    super(value - 1, refreshInput, finished)
-
+  _panelItemHandler: (e)->
+    value = $(e.currentTarget).data('value')
+    @moment.set('month', value)
+    @_setElValue()
+    @hide()
 
 View.addView(MonthView)
