@@ -93,45 +93,15 @@ $border-color: #e7e7e7;
   &.time-picker {
     height: 160px;
     .hour-panel {
-      width: 60%;
+      width: 100%;
       height: 100%;
       overflow-y: scroll;
       float: left;
-      padding-right: 10px;
       box-sizing: border-box;
       a.panel-item {
         margin: 2px 0;
-        padding-right: 10px;
         background-color: $bg-color;
         display: block;
-        text-align: right;
-        cursor: pointer;
-        &.selected {
-          background-color: $selected-color;
-        }
-        &.cur {
-          background-color: $cur-color;
-        }
-        &:hover {
-          background-color: $hover-color;
-        }
-      }
-    }
-    .quarter-panel {
-      display: block;
-      float: left;
-      width: 40%;
-      height: 100%;
-      box-sizing: border-box;
-      a.panel-item {
-        box-sizing: border-box;
-        background-color: $bg-color;
-        margin: 2px 0;
-        padding-left: 5px;
-        display: block;
-        height: 38px;
-        line-height: 38px;
-        width: 100%;
         cursor: pointer;
         &.selected {
           background-color: $selected-color;

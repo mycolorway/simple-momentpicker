@@ -1,6 +1,7 @@
 class MomentPicker extends SimpleModule
   opts:
     el: null
+    inline: false
     valueFormat: 'YYYY-MM-DD HH:mm'
     monthDisplayFormat: 'YYYY-MM'
     dateDisplayFormat: 'YYYY-MM-DD'
@@ -80,6 +81,7 @@ class MomentPicker extends SimpleModule
         id: @id
         el: @["input_#{name}"]
         cls: @opts.cls
+        inline: @opts.inline
         format: @opts["#{name}DisplayFormat"]
         parent: @
 
@@ -87,7 +89,7 @@ class MomentPicker extends SimpleModule
       @views[name] = new View::constructor.views[name](opt)
 
   _bind: ->
-    @on 'datechange', (e, d)=>
+    @on 'datechange.momentpicker', (e, d)=>
       if d.type == 'date' or d.type == 'month'
         @moment.set('date', d.moment.date())
         @moment.set('month', d.moment.month())
@@ -102,8 +104,19 @@ class MomentPicker extends SimpleModule
   getValue: ->
     @moment.format(@opts.valueFormat)
 
-  setMoment: (moment)->
-    @moment = moment(moment, @opts.valueFormat)
+  setMoment: (m)->
+    if moment.isMoment(m)
+      @moment = m.clone()
+    else
+      @moment = moment(m, @opts.valueFormat)
+    for name of @views
+      @views[name].setMoment(m)
+
+  destroy: ->
+    for name of @views
+      @off '.momentpicker'
+      @views[name].destroy()
+    @el.show()
 
 momentpicker = (opts) ->
   new MomentPicker opts
