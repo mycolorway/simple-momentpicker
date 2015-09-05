@@ -6,7 +6,7 @@ class Timeview extends View
     </div>
   """
 
-  _renderPanel: ->
+  _getPanelTpl: ->
     el = """
       <div class='hour-panel'>
     """

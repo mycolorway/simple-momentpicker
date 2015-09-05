@@ -10,15 +10,15 @@ class MonthView extends View
     super()
     @moment.set('date', 1)
 
-  _renderPanel: ->
-    menu = @_renderMenu()
-    panel = @_renderMonthPanel()
+  _getPanelTpl: ->
+    menu = @_getMenuTpl()
+    panel = @_getMonthPanelTpl()
     """
       <div class="calendar-menu">#{menu}</div>
       <div class="calendar-panel">#{panel}</div>
     """
 
-  _renderMenu: ->
+  _getMenuTpl: ->
     year = @moment.format('YYYY')
     """
       <a class="menu-item" data-action="prev"><i class="icon-chevron-left"><span>&lt;</span></i></a>
@@ -26,7 +26,7 @@ class MonthView extends View
       <a class="menu-item" data-action="next"><i class="icon-chevron-right"><span>&gt;</span></i></a>
     """
 
-  _renderMonthPanel: ->
+  _getMonthPanelTpl: ->
     cur_month = moment().format('YYYY-M')
     selected_month = moment(@el.val(), @opts.format).format('YYYY-M')
     el = ''

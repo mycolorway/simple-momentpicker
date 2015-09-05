@@ -2,31 +2,42 @@ class View extends SimpleModule
   opts:
     cls: ''
 
+  inputTpl: '<input class="momentpicker-input" />'
   panelTpl: ''
 
   _init: ->
     @id = @opts.id
-    @el = @opts.el
     @parent = @opts.parent
-    @moment = moment(@el.val(), @opts.format) || moment()
+    @moment = @opts.moment
 
     @_render()
     @_bind()
 
   _render: ->
-    @panel = $(@panelTpl).html(@_renderPanel()).addClass(@opts.cls).attr('id', "#{@name}_#{@id}")
-    @panel.appendTo('body')
+    @_renderInput()
+    @_renderPanel()
     if @opts.inline
       @el.hide()
       @panel.show()
     else
       @_setPosition()
 
+  _renderInput: ->
+    @el = $(@inputTpl).addClass("#{@name}-input").attr
+      'type': 'text'
+      'placeholder': @parent.el.attr 'placeholder'
+    @el.appendTo(@parent.el.parent())
+    @el.val @moment.format(@opts.format)
+
   _renderPanel: ->
-    false
+    @panel = $(@panelTpl).html(@_getPanelTpl()).addClass(@opts.cls).attr('id', "#{@name}-#{@id}")
+    @panel.appendTo('body')
+
+  _getPanelTpl: ->
+    @panelTpl
 
   _reRenderPanel: ->
-    @panel.html(@_renderPanel())
+    @panel.html(@_getPanelTpl())
 
   _setPosition: ->
     offset = @el.offset()
@@ -39,10 +50,10 @@ class View extends SimpleModule
     @_bindEl()
     @_bindPanel()
 
-    $(document).on "mousedown.momentpicker_#{@id}", (e)=>
+    $(document).on "mousedown.momentpicker-#{@id}", (e)=>
       return if @el.is(e.target) or !!@panel.has(e.target).length or @panel.is(e.target)
       @hide()
-    $(window).on "resize.momentpicker_#{@id}", (e)=>
+    $(window).on "resize.momentpicker-#{@id}", (e)=>
       @_setPosition()
 
   _bindEl: ->
@@ -98,8 +109,8 @@ class View extends SimpleModule
   destroy: ->
     @panel.remove()
     @el.remove()
-    $(document).off '.momentpicker_#{@id}'
-    $(window).off '.momentpicker_#{@id}'
+    $(document).off '.momentpicker-#{@id}'
+    $(window).off '.momentpicker-#{@id}'
 
   setMoment: (m)->
     @moment = m

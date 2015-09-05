@@ -11,23 +11,23 @@ class DateView extends View
     </div>
   """
 
-  _renderPanel: ->
+  _getPanelTpl: ->
     week = ''
     for i in [1, 2, 3, 4, 5, 6 ,0]
       week += "<td>#{moment.weekdaysMin(i)}</td>"
-    return """
+    """
         <div class="calendar-menu">
-          #{ @_renderDayMenu() }
+          #{ @_getDayMenuTpl() }
         </div>
         <table class="calendar"">
           <tr class="datepicker-dow">
             #{week}
           </tr>
-          #{ @_renderDaySelectors() }
+          #{ @_getDaySelectorsTpl() }
         </table>
     """
 
-  _renderDayMenu: ->
+  _getDayMenuTpl: ->
     month = @moment.format('YYYY.MM')
     return """
       <a class="menu-item" data-action="prev"><i class="icon-chevron-left"><span>&lt;</span></i></a>
@@ -36,7 +36,7 @@ class DateView extends View
     """
 
 
-  _renderDaySelectors: ->
+  _getDaySelectorsTpl: ->
     today = moment().startOf("day")
     selectDate = moment(@el.val(), @opts.format)
 
