@@ -1,5 +1,7 @@
 class MonthView extends View
   name: 'month'
+  opts:
+    format: 'YYYY-MM'
 
   panelTpl: """
     <div class="simple-momentpicker month-picker">

@@ -27,7 +27,7 @@ class View extends SimpleModule
       'type': 'text'
       'placeholder': @parent.el.attr 'placeholder'
     @el.appendTo(@parent.el.parent())
-    @el.val @moment.format(@opts.format)
+    @el.val(@moment.format(@opts.format))
 
   _renderPanel: ->
     @panel = $(@panelTpl).html(@_getPanelTpl()).addClass(@opts.cls).attr('id', "#{@name}-#{@id}")

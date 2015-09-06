@@ -2,10 +2,8 @@ class MomentPicker extends SimpleModule
   opts:
     el: null
     inline: false
-    valueFormat: 'YYYY-MM-DD HH:mm'
-    monthDisplayFormat: 'YYYY-MM'
-    dateDisplayFormat: 'YYYY-MM-DD'
-    timeDisplayFormat: 'HH:mm'
+    valueFormat: 'YYYY-MM-DD HH:mm:ss'
+    formatSplit: ' '
     cls: ''
     viewOpts:
       date:
@@ -17,6 +15,14 @@ class MomentPicker extends SimpleModule
   _init: ->
     @el = $(@opts.el)
     @type = @el.attr('type')
+    if @type == 'time'
+      @_inputValueFormat = 'HH:mm:ss'
+    else if @type == 'datetime' or @type == 'datetime-local'
+      @_inputValueFormat = 'YYYY-MM-DD THH:mm:ss'
+    else if @type == 'date'
+      @_inputValueFormat = 'YYYY-MM-DD'
+    else if @type == 'month'
+      @_inputValueFormat = 'YYYY-MM'
     @id = ++ MomentPicker._count
     @views = {}
 
@@ -26,6 +32,7 @@ class MomentPicker extends SimpleModule
 
     val = @el.val() || moment()
     @moment = if moment.isMoment(val) then val else moment(val, @opts.valueFormat)
+    @el.val(@moment.format(@_inputValueFormat))
 
     @_render()
     @_bind()
@@ -46,12 +53,16 @@ class MomentPicker extends SimpleModule
       @_creaetView('month')
 
   _creaetView: (name)->
+    if @opts.displayFormat?
+      format = @opts.displayFormat
+      format = format.split(@opts.formatSplit)[1] if name == 'time'
+      format = format.split(@opts.formatSplit)[0] if name == 'date'
     opt = 
       id: @id
       cls: @opts.cls
       inline: @opts.inline
       moment: @moment
-      format: @opts["#{name}DisplayFormat"]
+      format: format
       parent: @
 
     $.extend opt, @opts['viewOpts'][name] if @opts['viewOpts'][name]
@@ -66,6 +77,7 @@ class MomentPicker extends SimpleModule
       else if d.type == 'time'
         @moment.set('hour', d.moment.hour())
         @moment.set('minute', d.moment.minute())
+      @el.val(@moment.format(@_inputValueFormat))
 
   getMoment: ->
     @moment.clone()

@@ -3,6 +3,7 @@ class DateView extends View
 
   opts:
     el: null
+    format: 'YYYY-MM-DD'
     disableBefore: null
     disableAfter: null
 

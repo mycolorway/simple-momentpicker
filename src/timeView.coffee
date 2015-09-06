@@ -1,5 +1,7 @@
 class Timeview extends View
   name: 'time'
+  opts:
+    format: 'HH:mm'
 
   panelTpl: """
     <div class='simple-momentpicker time-picker'>
