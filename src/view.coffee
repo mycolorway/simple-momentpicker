@@ -56,7 +56,7 @@ class View extends SimpleModule
 
     $(document).on "mousedown.momentpicker-#{@id}", (e)=>
       return if @el.is(e.target) or !!@panel.has(e.target).length or @panel.is(e.target)
-      @hide()
+      @hide() unless @opts.inline
     $(window).on "resize.momentpicker-#{@id}", (e)=>
       @_setPosition()
 
