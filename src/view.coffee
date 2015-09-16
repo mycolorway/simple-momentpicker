@@ -41,7 +41,7 @@ class View extends SimpleModule
 
   _reRenderPanel: ->
     @panel.html(@_getPanelTpl())
-    @_setPosition() if @opts.inline
+    @_setPosition() if not @opts.inline
 
   _setPosition: ->
     offset = @el.offset()
