@@ -36,6 +36,7 @@ class MomentPicker extends SimpleModule
 
     @_render()
     @_bind()
+    @el.data 'momentpicker', @
 
   _render: ->
     @el.hide()
@@ -97,6 +98,7 @@ class MomentPicker extends SimpleModule
     for name of @views
       @off '.momentpicker'
       @views[name].destroy()
+    @el.removeData 'momentpicker'
     @el.show()
 
 momentpicker = (opts) ->
