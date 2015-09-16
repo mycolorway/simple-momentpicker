@@ -91,7 +91,7 @@ class MomentPicker extends SimpleModule
     else
       @moment = moment(m, @opts.valueFormat)
     for name of @views
-      @views[name].setMoment(m)
+      @views[name].setMoment(@moment)
 
   destroy: ->
     for name of @views
