@@ -18,7 +18,7 @@ class MomentPicker extends SimpleModule
     if @type == 'time'
       @_inputValueFormat = 'HH:mm:ss'
     else if @type == 'datetime' or @type == 'datetime-local'
-      @_inputValueFormat = 'YYYY-MM-DD THH:mm:ss'
+      @_inputValueFormat = 'YYYY-MM-DDTHH:mm:ss'
     else if @type == 'date'
       @_inputValueFormat = 'YYYY-MM-DD'
     else if @type == 'month'
