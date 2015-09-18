@@ -39,7 +39,7 @@ class DateView extends View
 
   _getDaySelectorsTpl: ->
     today = moment().startOf("day")
-    selectDate = moment(@el.val(), @opts.format)
+    selectDate = moment(@el.val(), @opts.format).startOf("day")
 
     # Calculate the first and last date in month being rendered.
     # Also calculate the weekday to start rendering on
@@ -62,7 +62,7 @@ class DateView extends View
         p = ((prevLastDate.date() - prevLastDate.day()) + i + 1)
         n = p - prevLastDate.date()
         c = (if (x is 6) then "sun" else ((if (x is 5) then "sat" else "day")))
-        date = @moment.clone().date(n)
+        date = @moment.clone().date(n).startOf("day")
 
 
         # If value is outside of bounds its likelym previous and next months
