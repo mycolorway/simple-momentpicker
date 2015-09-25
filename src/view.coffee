@@ -1,165 +1,126 @@
 class View extends SimpleModule
-
   opts:
-    parent: null
-    inputContainer: null
-    panelContainer: null
+    cls: ''
 
-  #view's name & moment's type
-  name: ''
-
-  #template
-  _inputTpl: '<input class="input"/>'
-  _panelTpl: '<div class="panel"></div>'
-
-  # add constructor of view
-  @addView: (view) ->
-    unless @views
-      @views = []
-    @views[view::name] = view
-
+  inputTpl: '<input class="momentpicker-input" />'
+  panelTpl: ''
 
   _init: ->
-    @parent = $(@opts.parent)
-    @inputContainer = $(@opts.inputContainer)
-    @panelContainer = $(@opts.panelContainer)
-
-    @moment = @opts.defaultValue || moment()
+    @id = @opts.id
+    @parent = @opts.parent
+    @moment = @opts.moment
 
     @_render()
-    @_bindInput()
-    @_bindPanel()
-    @_bindView()
+    @_bind()
 
   _render: ->
-    @input = $(@_renderInput())
-    @panel = $(@_renderPanel())
-
-    @inputContainer.append @input
-    @panelContainer.append @panel
-
-    @_refreshSelected()
-    @_refreshInput()
-
-  _bindInput: ->
-    @input.on 'focus', =>
-      @panel.addClass 'active'
-      @trigger 'showpanel',
-        source: @name
-
-    @input.on 'keydown', (e) =>
-      @_onKeydownHandler(e)
-
-    @input.on 'input', (e) =>
-      @_onInputHandler(e)
-
-    @input.on 'click', (e) =>
-      @input.focus().select()
-
-      false
-
-  _onKeydownHandler: (e) ->
-    key = e.which
-    value = @input.val()
-    type = @input.data 'type'
-    min = @input.data 'min'
-    max = @input.data 'max'
-    if key is 9 #tab
-      if e.shiftKey
-        @trigger 'showpanel',
-          source: @name
-          prev: true
-      else
-        @select(value, false, true)
-    else if key is 13 #enter
-      @select(value, false, false)
-      @trigger 'close',
-        selected: true
-    else if key is 38 or key is 40
-      direction = if key is 38 then 1 else -1
-      value = Number(value) + direction
-      value = max if value < min
-      value = min if value > max
-      @select(value, true, false)
-    else if [48..57].indexOf(key) isnt -1
-      return
-    else if [8, 46, 37, 39].indexOf(key) isnt -1
-      return
-    else if key is 27 #esc
-      @trigger 'close'
-
-    e.preventDefault()
-
-  _onInputHandler: ->
-
-  _bindPanel: ->
-    @panel.on 'click', 'a.panel-item', (e) =>
-      @_onClickHandler(e)
-
-    @panel.on 'click', 'a.menu-item', (e) =>
-      e.preventDefault()
-      action = $(e.currentTarget).data 'action'
-      @_handleAction(action)
-
-  _onClickHandler: (e) ->
-    e.preventDefault()
-    value = $(e.currentTarget).data 'value'
-    @select(value, true, true)
-
-  _handleAction: ->
-
-  _bindView: ->
-    @on 'datechange', (e, event) =>
-      @_onDateChangeHandler(event)
-
-  _onDateChangeHandler: (e)->
-    @moment = e.moment
-
-    @_refreshInput()
-    @_refreshSelected()
+    @_renderInput()
+    @_renderPanel()
+    if @opts.inline
+      @el.hide()
+      @panel.show()
+    else
+      @_setPosition()
 
   _renderInput: ->
-    @_inputTpl
+    @el = $(@inputTpl).addClass("#{@name}-input").attr
+      'type': 'text'
+      'placeholder': @parent.el.attr 'placeholder'
+    @el.appendTo(@parent.el.parent())
+    @el.val(@moment.format(@opts.format))
 
   _renderPanel: ->
-    @_panelTpl
+    @panel = $(@panelTpl).html(@_getPanelTpl()).addClass(@opts.cls).attr('id', "#{@name}-#{@id}")
+    if @opts.inline
+      @panel.insertAfter(@parent.el)
+    else
+      @panel.appendTo('body')
 
-  _reRenderPanel: (opt) ->
-    active = true if @panel.is '.active'
+  _getPanelTpl: ->
+    @panelTpl
 
-    @panel.replaceWith $(@_renderPanel(opt))
-    @panel = @panelContainer.find ".panel-#{@name}"
+  _reRenderPanel: ->
+    @panel.html(@_getPanelTpl())
+    @_setPosition() if not @opts.inline
 
-    @panel.addClass 'active'  if active
-    @_refreshSelected()
+  _setPosition: ->
+    offset = @el.offset()
+    @panel.css
+      'position': 'absolute'
+      'left': offset.left
+      'top': offset.top + @el.outerHeight(true)
+
+  _bind: ->
+    @_bindEl()
     @_bindPanel()
 
-  _refreshSelected: ->
-    @panel.find('a.selected').removeClass 'selected'
-    @panel.find("a[data-value='#{@_getValue()}']").addClass 'selected'
+    $(document).on "mousedown.momentpicker-#{@id}", (e)=>
+      return if @el.is(e.target) or !!@panel.has(e.target).length or @panel.is(e.target)
+      @hide() unless @opts.inline
+    $(window).on "resize.momentpicker-#{@id}", (e)=>
+      @_setPosition()
 
-  _refreshInput: ->
-    @input.val(@_getValue())
+  _bindEl: ->
+    @el.on 'focus', => 
+      @show()
+    .on 'click', (e)=>
+      @show()
+    .on 'keydown', =>
+      @hide()
+    .on 'blur', =>
+      @verifyValue()
 
-  _getValue: ->
-    @moment.get @name
+  _bindPanel: ->
+    @panel.on 'click', '.menu-item', (e)=>
+      e.stopPropagation()
+      @_menuItemHandler(e)
 
-  select: (value, refreshInput, finished) ->
-    @moment.set @name, value
-    @triggerHandler 'select',
-      source: @name
-      moment: @moment
-      finished: finished
-    @triggerHandler 'datechange',
-      moment: @moment
+    .on 'click', '.panel-item', (e)=>
+      e.stopPropagation()
+      @_panelItemHandler(e)
+      @parent.trigger 'select',
+        type: @name
+        moment: @moment.clone()
 
-  setActive: (active = true) ->
-    if active
-      @input.focus().select()
-    else
-      @panel.removeClass 'active'
+  _menuItemHandler: ->
+    false
 
-  clear: ->
-    @moment = moment()
-    @input.val('')
+  _panelItemHandler: ->
+    false
 
+  _setElValue: ->
+    @el.val(@moment.format(@opts.format))
+    @parent.trigger 'datechange',
+      type: @name
+      moment: @moment.clone()
+
+  _setActive: ->
+    @_reRenderPanel()
+
+  verifyValue: ->
+    new_moment = moment(@el.val(), @opts.format)
+    if new_moment.isValid()
+      @moment = new_moment
+    @_setElValue()
+
+  show: ->
+    @_setActive()
+    @panel.show()
+
+  hide: ->
+    @panel.hide()
+
+  destroy: ->
+    @panel.remove()
+    @el.remove()
+    $(document).off '.momentpicker-#{@id}'
+    $(window).off '.momentpicker-#{@id}'
+
+  setMoment: (m)->
+    @moment = m
+    @_setElValue()
+
+  @addView: (view) ->
+    unless @views
+      @views = {}
+    @views[view::name] = view

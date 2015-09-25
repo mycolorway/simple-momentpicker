@@ -1,66 +1,41 @@
 .simple-momentpicker {
-  width: 250px;
+  width: 150px;
   background: #fff;
   font-size: 12px;
   display: none;
   z-index: 300;
 }
-.simple-momentpicker.time-picker, .simple-momentpicker.date-picker, .simple-momentpicker.month-picker {
-  width: 200px;
-}
 .simple-momentpicker a {
   text-decoration: none;
 }
-.simple-momentpicker .picker-header {
-  text-align: center;
-  padding: 10px;
-  border-bottom: 1px solid #e7e7e7;
-}
-.simple-momentpicker .picker-header .view-input {
-  display: inline-block;
-  outline: 0;
-  text-align: center;
-}
-.simple-momentpicker .picker-header .view-input.year-input {
-  width: 15%;
-}
-.simple-momentpicker .picker-header .view-input.month-input {
-  width: 8%;
-}
-.simple-momentpicker .picker-header .view-input.date-input {
-  width: 8%;
-}
-.simple-momentpicker .picker-header .view-input.hour-input, .simple-momentpicker .picker-header .view-input.minute-input {
-  width: 8%;
-}
-.simple-momentpicker .picker-header span {
-  margin: 0 5px;
-}
-.simple-momentpicker .picker-header span:last-child {
-  margin-right: 0;
-}
-.simple-momentpicker .picker-panels .panel-date {
-  width: 100%;
-  display: none;
-}
-.simple-momentpicker .picker-panels .panel-date.active {
-  display: table;
-}
-.simple-momentpicker .picker-panels .panel-date .calendar-menu .menu-item {
-  width: 50%;
+.simple-momentpicker.date-picker .calendar-menu .menu-item {
+  display: block;
+  width: 25%;
   padding: 5px 0;
   text-align: center;
-  float: left;
   box-sizing: border-box;
   cursor: pointer;
+  float: left;
 }
-.simple-momentpicker .picker-panels .panel-date .calendar-menu .menu-item:hover {
+.simple-momentpicker.date-picker .calendar-menu .menu-item:hover {
   background: #cbe0ff;
 }
-.simple-momentpicker .picker-panels .panel-date table {
+.simple-momentpicker.date-picker .calendar-menu .cur-month {
+  display: block;
+  padding: 5px 0;
+  text-align: center;
+  box-sizing: border-box;
+  width: 50%;
+  float: left;
+  font-weight: bolder;
+}
+.simple-momentpicker.date-picker table.calendar {
   width: 100%;
 }
-.simple-momentpicker .picker-panels .panel-date table td {
+.simple-momentpicker.date-picker table.calendar tr.datepicker-dow {
+  color: #999;
+}
+.simple-momentpicker.date-picker table.calendar td {
   width: 24px;
   line-height: 24px;
   margin: 0;
@@ -68,10 +43,7 @@
   text-align: center;
   vertical-align: middle;
 }
-.simple-momentpicker .picker-panels .panel-date table.calendar .datepicker-dow {
-  color: #999;
-}
-.simple-momentpicker .picker-panels .panel-date table.calendar .datepicker-day a {
+.simple-momentpicker.date-picker table.calendar td.datepicker-day a {
   display: block;
   height: 100%;
   background: #f3f3f3;
@@ -81,66 +53,89 @@
   -moz-text-shadow: 0 1px 0 white;
   text-shadow: 0 1px 0 white;
 }
-.simple-momentpicker .picker-panels .panel-date table.calendar .datepicker-day a.today {
+.simple-momentpicker.date-picker table.calendar td.datepicker-day a.today {
   background: #ffe451;
 }
-.simple-momentpicker .picker-panels .panel-date table.calendar .datepicker-day a.others {
+.simple-momentpicker.date-picker table.calendar td.datepicker-day a.others {
   background: #fff;
   color: #cccccc;
 }
-.simple-momentpicker .picker-panels .panel-date table.calendar .datepicker-day a:hover {
+.simple-momentpicker.date-picker table.calendar td.datepicker-day a:hover {
   background: #cbe0ff;
 }
-.simple-momentpicker .picker-panels .panel-date table.calendar .datepicker-day a.selected {
+.simple-momentpicker.date-picker table.calendar td.datepicker-day a.selected {
   background: #cce5f1;
 }
-.simple-momentpicker .picker-panels .panel-date table.calendar .datepicker-day a.disabled {
+.simple-momentpicker.date-picker table.calendar td.datepicker-day a.disabled {
   background: #fff;
   color: #ccc;
   cursor: default;
   pointer-events: none;
 }
-.simple-momentpicker .picker-panels .panel-date table.calendar .datepicker-month a {
-  display: block;
+.simple-momentpicker.time-picker {
+  height: 160px;
 }
-.simple-momentpicker .picker-panels .panel:not(.panel-date) {
-  display: none;
+.simple-momentpicker.time-picker .hour-panel {
   width: 100%;
-  white-space: initial;
-}
-.simple-momentpicker .picker-panels .panel:not(.panel-date).active {
-  display: block;
-}
-.simple-momentpicker .picker-panels .panel:not(.panel-date) a.panel-item {
-  display: inline-block;
-  box-sizing: border-box;
-  margin: 0;
-  width: 25%;
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
-}
-.simple-momentpicker .picker-panels .panel:not(.panel-date) a.panel-item:hover {
-  background: #cbe0ff;
-}
-.simple-momentpicker .picker-panels .panel:not(.panel-date) a.panel-item.selected {
-  background: #cce5f1;
-}
-.simple-momentpicker .picker-panels .panel:not(.panel-date) a.menu-item {
-  width: 50%;
-  padding: 5px 0;
-  text-align: center;
+  height: 100%;
+  overflow-y: scroll;
   float: left;
   box-sizing: border-box;
+}
+.simple-momentpicker.time-picker .hour-panel a.panel-item {
+  margin: 2px 0;
+  background-color: #f3f3f3;
+  display: block;
   cursor: pointer;
 }
-.simple-momentpicker .picker-panels .panel:not(.panel-date) a.menu-item:hover {
+.simple-momentpicker.time-picker .hour-panel a.panel-item.selected {
+  background-color: #cce5f1;
+}
+.simple-momentpicker.time-picker .hour-panel a.panel-item.cur {
+  background-color: #ffe451;
+}
+.simple-momentpicker.time-picker .hour-panel a.panel-item:hover {
+  background-color: #cbe0ff;
+}
+.simple-momentpicker.month-picker .calendar-menu .menu-item {
+  display: block;
+  width: 25%;
+  padding: 5px 0;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  float: left;
+}
+.simple-momentpicker.month-picker .calendar-menu .menu-item:hover {
   background: #cbe0ff;
 }
-.simple-momentpicker .picker-panels .panel:not(.panel-date).panel-hour a.panel-item {
-  width: 16.66%;
-  padding: 6px 8px;
+.simple-momentpicker.month-picker .calendar-menu .cur-month {
+  display: block;
+  padding: 5px 0;
+  text-align: center;
+  box-sizing: border-box;
+  width: 50%;
+  float: left;
+  font-weight: bolder;
 }
-.simple-momentpicker .picker-panels .panel:not(.panel-date).panel-hour a.panel-item:nth-child(n + 7):not(:nth-child(n + 13)) {
-  border-bottom: 1px dashed #dfdfdf;
+.simple-momentpicker.month-picker .calendar-panel a.panel-item {
+  display: block;
+  float: left;
+  width: 23%;
+  margin: 1%;
+  box-sizing: border-box;
+  background-color: #f3f3f3;
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  cursor: pointer;
+}
+.simple-momentpicker.month-picker .calendar-panel a.panel-item.cur {
+  background-color: #ffe451;
+}
+.simple-momentpicker.month-picker .calendar-panel a.panel-item.selected {
+  background-color: #cce5f1;
+}
+.simple-momentpicker.month-picker .calendar-panel a.panel-item:hover {
+  background-color: #cbe0ff;
 }

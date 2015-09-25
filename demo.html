@@ -41,7 +41,7 @@
     }
 
     .momentpicker-input {
-      width: 200px;
+      width: 100px;
     }
 
   </style>
@@ -56,13 +56,13 @@
   <section>
     <h2>A Datetime picker</h2>
     <div class="component">
-      <input type="text" id="datetime"/>
+      <input type="datetime" id="datetime"/>
     </div>
     <div class="script">
       <pre>
+        &ltinput type="datetime" id="datetime"/&gt
         simple.momentpicker({
-          el: '#datetime',
-          displayFormat: 'LT LL'
+          el: '#datetime'
         });
       </pre>
     </div>
@@ -70,15 +70,15 @@
 
 
   <section>
-    <h2>A Datetime picker</h2>
+    <h2>A Date picker</h2>
     <div class="component">
-      <input type="text" id="date"/>
+      <input type="date" id="date"/>
     </div>
     <div class="script">
       <pre>
-        simple.momentpicker.date({
-          el: '#date',
-          displayFormat: 'LL'
+        &ltinput type="date" id="date"/&gt
+        simple.momentpicker({
+          el: '#date'
         });
       </pre>
     </div>
@@ -87,13 +87,13 @@
   <section>
     <h2>A Month picker</h2>
     <div class="component">
-      <input type="text" id="month"/>
+      <input type="month" id="month"/>
     </div>
     <div class="script">
       <pre>
-        simple.momentpicker.month({
-          el: '#month',
-          displayFormat: 'YYYY-MM'
+        &ltinput type="month" id="month"/&gt
+        simple.momentpicker({
+          el: '#month'
         });
       </pre>
     </div>
@@ -102,13 +102,13 @@
   <section>
     <h2>A Time picker</h2>
     <div class="component">
-      <input type="text" id="time"/>
+      <input type="time" id="time"/>
     </div>
     <div class="script">
       <pre>
-        simple.momentpicker.time({
-          el: '#time',
-          displayFormat: 'LT'
+        &ltinput type="time" id="time"/&gt
+        simple.momentpicker({
+          el: '#time'
         });
       </pre>
     </div>
@@ -121,24 +121,20 @@
 <script type="text/javascript" src="lib/momentpicker.js"></script>
 <script type="text/javascript">
   simple.momentpicker({
-    el: '#datetime',
-    displayFormat: 'LLLL'
-  }).setDate(moment());
+    el: '#datetime'
+  });
 
-  simple.momentpicker.date({
-    el: '#date',
-    displayFormat: 'LL'
-  }).setDate(moment());
+  simple.momentpicker({
+    el: '#date'
+  });
 
-  simple.momentpicker.month({
-    el: '#month',
-    displayFormat: 'YYYY-MM'
-  }).setDate(moment());
+  simple.momentpicker({
+    el: '#month'
+  });
 
-  simple.momentpicker.time({
-    el: '#time',
-    displayFormat: 'LT'
-  }).setDate(moment());
+  simple.momentpicker({
+    el: '#time'
+  });
 </script>
 </body>
 

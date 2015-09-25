@@ -1,337 +1,99 @@
-describe 'Class View', ->
-  View = simple.momentpicker.View
-  class TestView extends View
-    name: 'second'
-
-    _inputTpl: '<input type="text" class="test-input" data-min="6" data-max="10"/>'
-
-    _renderPanel: ->
-      """
-      <div class="panel panel-test">
-        <a class="menu-item" data-action="testAction"></a>
-        <a class="panel-item" data-value='6'>6</a>
-        <a class="panel-item" data-value='7'>7</a>
-        <a class="panel-item" data-value='8'>8</a>
-        <a class="panel-item" data-value='9'>9</a>
-        <a class="panel-item" data-value='10'>10</a>
-      </div>
-      """
-
-    _handleAction: (action) ->
-
-  tpl = """
-    <div class='test-view'>
-      <div class='input-insert-point'></div>
-      <div class='panel-insert-point'></div>
-    </div>
-  """
-
-  $parent = $(tpl).appendTo 'body'
-
-  testView = new TestView
-    inputContainer: $('.input-insert-point')
-    panelContainer: $('.panel-insert-point')
-    defaultValue: moment().second(8)
-
-  $input = $parent.find('.input-insert-point input.test-input')
-  $panel = $parent.find('.panel-insert-point .panel.panel-test')
-
-  it 'should render input and panel to specific insert point', ->
-    expect($input).toExist()
-    expect($panel.find('.panel-item')).toExist()
-    expect($panel.find('.menu-item')).toExist()
-
-  it 'should set initial value to view', ->
-    expect($input.val()).toBe('8')
-    expect($panel.find('.selected').data('value')).toBe(8)
-
-  it 'should trigger select event when click panel-item', ->
-    spySelectEvent = spyOn(testView, 'select').and.callThrough()
-    $panel.find('[data-value=9]').trigger('click')
-
-    expect(spySelectEvent).toHaveBeenCalled()
-    expect($input.val()).toBe('9')
-    expect($panel.find('.selected').data('value')).toBe(9)
-
-  it 'should handle antion when click menu-item', ->
-    spyAction = spyOn(testView, '_handleAction').and.callThrough()
-    $panel.find('.menu-item').trigger('click')
-
-    expect(spyAction).toHaveBeenCalled()
-
-  it 'should add or minus value when click up or down on input', ->
-    $input.val '7'
-
-    $input.trigger $.Event('keydown',{keyCode: 40, which: 40})
-    expect($input.val()).toBe('6')
-    expect($panel.find('.selected').data('value')).toBe(6)
-
-    $input.trigger $.Event('keydown',{keyCode: 38, which: 38})
-    expect($input.val()).toBe('7')
-    expect($panel.find('.selected').data('value')).toBe(7)
-
-    $input.trigger $.Event('keydown',{keyCode: 38, which: 38})
-    $input.trigger $.Event('keydown',{keyCode: 38, which: 38})
-    $input.trigger $.Event('keydown',{keyCode: 38, which: 38})
-    $input.trigger $.Event('keydown',{keyCode: 38, which: 38})
-
-    expect($input.val()).toBe('6')
-    expect($panel.find('.selected').data('value')).toBe(6)
-
-  it 'should handle datechange when trigger datechange event', ->
-    spyDatechange = spyOn(testView, '_onDateChangeHandler').and.callThrough()
-    testView.trigger 'datechange',
-      moment: moment()
-
-    expect(spyDatechange).toHaveBeenCalled()
-
-  it 'should set active when class setActive', ->
-    testView.setActive()
-    expect($panel).toHaveClass 'active'
-
-    testView.setActive(false)
-    expect($panel).not.toHaveClass 'active'
-
-  it 'should add self to class View when call addview', ->
-    View.addView(TestView)
-
-    expect(View::constructor.views['second']).not.toBeUndefined()
-
-
 describe 'simple-momentpicker', ->
+  $el = $('<input id="test_input" type="datetime" value="2014-08-01 10:30" style="width: 120px;"/>')
+  $el.appendTo('body')
+
+  $date_input = null
+  $time_input = null
+  $date_panel = null
+  $time_panel = null
+
+  picker = null
+
   beforeEach ->
-    $('<input id="time">').appendTo 'body'
+    picker = simple.momentpicker({
+      el: '#test_input'
+    });
+
+    $date_input = $('.momentpicker-input.date-input')
+    $time_input = $('.momentpicker-input.time-input')
+
+    $date_panel = $('.simple-momentpicker.date-picker')
+    $time_panel = $('.simple-momentpicker.time-picker')
 
   afterEach ->
-    momentpicker = $('#time').data 'momentpicker'
-    momentpicker?.destroy()
-    $('#time').remove()
+    picker.destroy()
 
-  it 'should throw error when option is invalid', ->
-    testError = ->
-      simple.momentpicker
-        el: null
+    $date_input = null
+    $time_input = null
 
-    expect(testError).toThrow()
+    $date_panel = null
+    $time_panel = null
 
-  it 'should render specific DOM', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
+  it 'should render input and panel', ->
+    expect($el).not.toBeVisible()
+    expect($date_input).toExist()
+    expect($time_input).toExist()
+    expect($date_panel).toExist()
+    expect($time_panel).toExist()
 
-    $momentpicker = $('.simple-momentpicker')
-
-    expect($momentpicker).toExist()
-    expect($momentpicker.find('.picker-header')).toExist()
-    expect($momentpicker.find('.picker-panels')).toExist()
-    expect($momentpicker.find('.panel.panel-date table.calendar')).toExist()
-    expect($momentpicker.find('.panel.panel-month')).toExist()
-    expect($momentpicker.find('.panel.panel-year')).toExist()
-
-    momentpicker.destroy()
-
-    momentpicker = simple.momentpicker
-      el: '#time'
-      inline: true
-      list: ['month', 'year']
-
-    $momentpicker = $('.simple-momentpicker')
-    expect($momentpicker.find('table.calendar')).not.toExist()
-
-
-  it 'should show when focused and inline off', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
-      inline: false
-
-    $('.momentpicker-input').blur()
-    expect($('.simple-momentpicker')).not.toBeVisible()
-    $('.momentpicker-input').focus()
-    $('.momentpicker-input').focus() #patch
-    expect($('.simple-momentpicker')).toBeVisible()
-
-  it 'should render right calendar based on year and month', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
-      inline: true
-
-    $momentpicker = $('.simple-momentpicker')
-    $momentpicker.find('.panel-year a[data-value=2016]').click()
-    $momentpicker.find('.panel-month a[data-value=5]').click()
-
-    expect($momentpicker.find('.panel-date a[data-value=2016-06-01]')).toExist()
-
-  it 'should change different panel when focus on different field', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
-      inline: true
-
-    $momentpicker = $('.simple-momentpicker')
-    $momentpicker.find('.year-input').focus()
-    expect($momentpicker.find('.panel-year')).toBeVisible()
-
-    $momentpicker.find('.month-input').focus()
-    expect($momentpicker.find('.panel-month')).toBeVisible()
-
-    $momentpicker.find('.date-input').focus()
-    expect($momentpicker.find('.panel-date')).toBeVisible()
-
-    $momentpicker.find('.hour-input').focus()
-    expect($momentpicker.find('.panel-hour')).toBeVisible()
-
-    $momentpicker.find('.minute-input').focus()
-    expect($momentpicker.find('.panel-minute')).toBeVisible()
-
-
-  it 'should pick correct time', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
-      inline: true
-
-    $momentpicker = $('.simple-momentpicker')
-    $momentpicker.find('.panel-year a[data-value=2016]').click()
-    $momentpicker.find('.panel-month a[data-value=6]').click()
-    $momentpicker.find('.panel-date a[data-value=2016-06-01]').click()
-    $momentpicker.find('.panel-hour a[data-value=8]').click()
-    $momentpicker.find('.panel-minute a[data-value=15]').click()
-
-    expect($('#time').val()).toBe('2016-06-01 08:15')
-
-    momentpicker.destroy()
-
-    #test pick date
-    momentpicker = simple.momentpicker.date
-      el: '#time'
-      inline: true
-
-    $momentpicker = $('.simple-momentpicker')
-    $momentpicker.find('.panel-year a[data-value=2016]').click()
-    $momentpicker.find('.panel-month a[data-value=6]').click()
-    $momentpicker.find('.panel-date a[data-value=2016-06-01]').click()
-
-    expect($('#time').val()).toBe('2016-06-01')
-
-    momentpicker.destroy()
-
-    #test pick month
-    momentpicker = simple.momentpicker.month
-      el: '#time'
-      valueFormat: 'YYYY-MM'
-
-    $momentpicker = $('.simple-momentpicker')
-    $momentpicker.find('.panel-year a[data-value=2016]').click()
-    $momentpicker.find('.panel-month a[data-value=6]').click()
-    expect($('#time').val()).toBe('2016-06')
-
-    momentpicker.destroy()
-
-    #test pick time
-    momentpicker = simple.momentpicker.time
-      el: '#time'
-      valueFormat: 'HH:mm'
-
-    $momentpicker = $('.simple-momentpicker')
-    $momentpicker.find('.panel-hour a[data-value=8]').click()
-    $momentpicker.find('.panel-minute a[data-value=15]').click()
-    expect($('#time').val()).toBe('08:15')
-
+  it 'should show panel when focused', ->
+    $date_input.focus()
+    expect($date_panel).toBeVisible()
+    $time_input.focus()
+    expect($time_panel).toBeVisible()
 
   it 'should change month when click date prev/next button', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
-      inline: true
+    $date_input.focus()
+    $date_panel.find('.menu-item[data-action="prev"]').click()
+    expect($date_panel.find('.cur-month').html()).toBe('2014.07')
+    $date_panel.find('.menu-item[data-action="next"]').click()
+    $date_panel.find('.menu-item[data-action="next"]').click()
+    expect($date_panel.find('.cur-month').html()).toBe('2014.09')
 
-    $momentpicker = $('.simple-momentpicker')
-    $momentpicker.find('.panel-year a[data-value=2016]').click()
-    $momentpicker.find('.panel-month a[data-value=6]').click()
-    expect($momentpicker.find('.panel-month a[data-value=6]')).toHaveClass('selected')
-    $momentpicker.find('.panel-date a[data-action=prev]').click()
-    expect($momentpicker.find('.panel-month a[data-value=5]')).toHaveClass('selected')
-    $momentpicker.find('.panel-date a[data-action=next]').click()
-    expect($momentpicker.find('.panel-month a[data-value=6]')).toHaveClass('selected')
+  it 'should set initial value to view', ->
+    expect($date_input.val()).toBe('2014-08-01')
+    expect($date_panel.find('.panel-item.selected').data('value')).toBe('2014-08-01')
+    expect($time_input.val()).toBe('10:30')
 
-  it 'should change year panel when click prev/next button', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
-      inline: true
+  it 'should trigger select and datechange event when click panel-item', ->
+    spyEventSelect = spyOnEvent(picker, 'select')
+    spyEventDateChange = spyOnEvent(picker, 'datechange')
+    $date_panel.find('.panel-item[data-value=2014-08-20]').trigger('click')
 
-    $momentpicker = $('.simple-momentpicker')
-    expect($momentpicker.find('.panel-year a[data-value=2010]')).toExist()
+    expect(spyEventSelect).toHaveBeenTriggered()
+    expect(spyEventDateChange).toHaveBeenTriggered()
+    expect($date_input.val()).toBe('2014-08-20')
 
-    $momentpicker.find('.panel-year a[data-action=prev]').click()
-    expect($momentpicker.find('.panel-year a[data-value=2000]')).toExist()
-
-    $momentpicker.find('.panel-year a[data-action=next]').click()
-    expect($momentpicker.find('.panel-year a[data-value=2010]')).toExist()
-
-
-  it 'should set correct date', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
-      inline: true
-
-    $momentpicker = $('.simple-momentpicker')
-    momentpicker.setDate('2016-06-01 08:42')
-
-    expect($momentpicker.find('.panel-year a[data-value=2016]')).toHaveClass('selected')
-    expect($momentpicker.find('.panel-month a[data-value=6]')).toHaveClass('selected')
-    expect($momentpicker.find('.panel-date a[data-value=2016-06-01]')).toHaveClass('selected')
-    expect($momentpicker.find('.panel-hour a[data-value=8]')).toHaveClass('selected')
-    expect($momentpicker.find('.panel-minute a[data-value=40]')).toHaveClass('selected')
-    expect($momentpicker.find('.year-input').val()).toBe('2016')
-    expect($momentpicker.find('.month-input').val()).toBe('06')
-    expect($momentpicker.find('.date-input').val()).toBe('01')
-    expect($momentpicker.find('.hour-input').val()).toBe('08')
-    expect($momentpicker.find('.minute-input').val()).toBe('42')
-    expect($('#time').val()).toBe('2016-06-01 08:42')
-
-  it 'should clear value when clear is called', ->
-    momentpicker = simple.momentpicker
-      el: '#time'
-
-    momentpicker.setDate('2016-06-01 08:42')
-    momentpicker.clear()
-
-    expect(momentpicker.getDate()).toBe(null)
+  it 'should hidden panel when press keyboard', ->
+    $date_input.focus()
+    expect($date_panel).toBeVisible()
+    $date_input.trigger $.Event('keydown',{keyCode: 40, which: 40})
+    expect($date_panel).not.toBeVisible()
 
   it 'should reset all when destroy', ->
+    el = $('<input id="month_input" type="month" style="width: 120px;"/>')
+    el.appendTo 'body'
     momentpicker = simple.momentpicker
-      el: '#time'
-      inline: true
-      monthpicker: true
+      el: '#month_input'
+
+    expect(el).not.toBeVisible()
+    expect($('.momentpicker-input.month-input')).toExist()
+    expect($('.simple-momentpicker.month-picker')).toExist()
 
     momentpicker.destroy()
-    expect($('.simple-momentpicker')).not.toExist()
-
-  it "should fetch date from @el by @getDate if @date is undefined", ->
-    date = "2015-01-01"
-
-    $("<input id='timeWithValue' value='#{date}'>").appendTo 'body'
-    momentpicker = simple.momentpicker
-      el: '#timeWithValue'
-    expect momentpicker.getDate().isSame date
-      .toBe true
-    $("#timeWithValue").remove()
+    expect(el).toBeVisible()
+    expect($('.momentpicker-input.month-input')).not.toExist()
+    expect($('.simple-momentpicker.month-picker')).not.toExist()
 
   it "should not be shared moment object between two component", ->
-    $("<input id='timeWithValue' value='2015-01-01'>").appendTo 'body'
-    momentpicker_one = simple.momentpicker
+    $("<input id='timeWithValue' type='date' value='2015-01-01'>").appendTo 'body'
+    momentpicker = simple.momentpicker
       el: '#timeWithValue'
-    momentpicker_two = simple.momentpicker
-      el: '#time'
-    date_one = momentpicker_one.getDate()
-    momentpicker_two.setDate(date_one)
+    moment_one = momentpicker.getMoment()
+    picker.setMoment(moment_one)
 
-    date_one._i = '2015-11-11'
+    moment_one._i = '2015-11-11'
 
-    expect(momentpicker_two.getDate()._i == '2015-11-11').toBe false
-    momentpicker_one?.destroy()
-    $('#timeWithValue').remove()
-
-  it "should render right panel when @el has default value", ->
-    $("<input id='timeWithValue' value='2015-01-01'>").appendTo 'body'
-    picker = simple.momentpicker
-      el: '#timeWithValue'
-    $(".momentpicker-input").trigger "click"
-    expect($("a[data-value='2015-01-15']")).toExist()
-    picker?.destroy()
+    expect(picker.getMoment()._i == '2015-11-11').toBe false
+    momentpicker?.destroy()
     $('#timeWithValue').remove()
