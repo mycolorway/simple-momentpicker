@@ -30,13 +30,13 @@ class MonthView extends View
 
   _getMonthPanelTpl: ->
     cur_month = moment().format('YYYY-M')
-    selected_month = moment(@el.val(), @opts.format).format('YYYY-M')
+    selected_month = if @el.val() then moment(@el.val(), @opts.format).format('YYYY-M') else null
     el = ''
     for month in [0..11]
       cls = ''
       if cur_month == @moment.format('YYYY-') + ( month + 1 )
         cls += ' cur'
-      if selected_month == @moment.format('YYYY-') + ( month + 1 )
+      if selected_month and selected_month == @moment.format('YYYY-') + ( month + 1 )
         cls += ' selected'
       el += "<a class='#{cls} panel-item' data-value='#{month}'>#{month + 1}</a>"
     el
