@@ -36,24 +36,25 @@ Designed for both mouse and keyboard intereaction.
 	```
 	
 ## Configuration options
+el: null
+    inline: false
+    valueFormat: 'YYYY-MM-DD HH:mm:ss'
+    formatSplit: ' '
+    cls: ''
+    viewOpts:
+      date:
+        disableBefore: null
+        disableAfter: null
 
 | Option        | Value                  | Default                                                            | Description                                                                                                                       |
 |---------------|------------------------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | el            | selector/jQuery Obejct | null                                                               | a input element to initial momentpicker, necessary                                                                                |
-| list          | array                  | ['year','%-',,'month', '%-', 'date', '%,', 'hour', '%:', 'minute'] | set picker's selectable views, only year, month, date, hour, minute is provided, string begins with '%' will be converted to text |
 | inline        | boolean                | false                                                              | if set true, will append momentpicker after el                                                                                    |
 | valueFormat   | string                 | 'YYYY-MM-DD HH:mm'                                                 | momentjs's format string, set input's value format                                                                                |
 | displayFormat | string                 | 'YYYY-MM-DD HH:mm'                                                 | momentjs's format string, set input's display format, only available when inline false                                            |
-| defaultView   | string                 | 'auto'                                                             | default view when momentpicker shows                                                                                              |
-| class         | string                 | 'datetime-picker'                                                  | the class name add to momentpicker dom                                                                                            |
+| formatSplit   | string                 | ' '                                                                | A split sign for displayFormat to differentiate date and time view                                                               |
+| cls         | string                 | 'datetime-picker'                                                  | the class name add to momentpicker dom                                                                                            |
 | viewOpts      | obejct                 | -                                                                  | the options passed to views, only date's disableBefore and disableAfter provided                                                  |                                                            |
-
-To simplify configuration, we provide these method:
-
-- **simple.momentpicker** initialize a datetime picker
-- **simple.momentpicker.date** initialize a date picker
-- **simple.momentpicker.month** initialize a month picker
-- **simple.momtnpicker.time** initialize a time picker
 
 Please refer to demo to get more details.
  
@@ -61,17 +62,17 @@ Please refer to demo to get more details.
 
 ### Instance Method
 
-- setDate()
+- setMoment()
 	
 	set momentpicker's date, could be date string or moment obeject.
-	
-- clear()
 
-	reset momentpicker's date.
-	
-- show()/hide()/toggle()
+- getMoment()
 
-	controler momentpicker's show/hide.
+	get a clone of momentpicker's moment
+
+- getValue()
+
+	get value of momentpicker
 	
 - destroy()
 
