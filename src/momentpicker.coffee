@@ -83,7 +83,7 @@ class MomentPicker extends SimpleModule
     @moment.clone()
 
   getValue: ->
-    @moment.format(@opts.valueFormat)
+    if @el.val() then @moment.format(@opts.valueFormat) else null
 
   setMoment: (m)->
     if moment.isMoment(m)
