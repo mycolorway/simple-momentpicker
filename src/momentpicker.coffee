@@ -32,7 +32,6 @@ class MomentPicker extends SimpleModule
 
     val = @el.val() || moment()
     @moment = if moment.isMoment(val) then val else moment(val, @opts.valueFormat)
-    @el.val(@moment.format(@_inputValueFormat))
 
     @_render()
     @_bind()
@@ -84,7 +83,7 @@ class MomentPicker extends SimpleModule
     @moment.clone()
 
   getValue: ->
-    @moment.format(@opts.valueFormat)
+    if @el.val() then @moment.format(@opts.valueFormat) else null
 
   setMoment: (m)->
     if moment.isMoment(m)

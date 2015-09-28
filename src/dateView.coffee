@@ -39,7 +39,8 @@ class DateView extends View
 
   _getDaySelectorsTpl: ->
     today = moment().startOf("day")
-    selectDate = moment(@el.val(), @opts.format).startOf("day")
+
+    selectDate = if @el.val() then moment(@el.val(), @opts.format).startOf("day") else null
 
     # Calculate the first and last date in month being rendered.
     # Also calculate the weekday to start rendering on
@@ -69,7 +70,7 @@ class DateView extends View
         if n >= 1 and n <= lastDate.date()
           # Test to see if it's today
           c += ' today' if (today.isSame(date, 'day') is true)
-          c += (if(date.diff(selectDate, 'days') is 0) then " selected" else "")  if @moment
+          c += (if(date.diff(selectDate, 'days') is 0) then " selected" else "")  if selectDate
         else if n > lastDate.date() and x is 0
           break
         else

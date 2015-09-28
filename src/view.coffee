@@ -27,7 +27,7 @@ class View extends SimpleModule
       'type': 'text'
       'placeholder': @parent.el.attr 'placeholder'
     @el.appendTo(@parent.el.parent())
-    @el.val(@moment.format(@opts.format))
+    @el.val(@moment.format(@opts.format)) if @parent.el.val()
 
   _renderPanel: ->
     @panel = $(@panelTpl).html(@_getPanelTpl()).addClass(@opts.cls).attr('id', "#{@name}-#{@id}")
@@ -68,7 +68,7 @@ class View extends SimpleModule
     .on 'keydown', =>
       @hide()
     .on 'blur', =>
-      @verifyValue()
+      @verifyValue() if @el.val()
 
   _bindPanel: ->
     @panel.on 'click', '.menu-item', (e)=>
