@@ -50,6 +50,13 @@
       expect($date_panel.find('.panel-item.selected').data('value')).toBe('2014-08-01');
       return expect($time_input.val()).toBe('10:30');
     });
+    it('should trigger el\'s change event when component data change', function() {
+      var spyEventChange;
+      spyEventChange = spyOnEvent(picker.el, 'change');
+      $date_panel.find('.panel-item[data-value=2014-08-20]').trigger('click');
+      expect(spyEventChange).toHaveBeenTriggered();
+      return expect(picker.el.val()).toBe('2014-08-20T10:30:00');
+    });
     it('should trigger select and datechange event when click panel-item', function() {
       var spyEventDateChange, spyEventSelect;
       spyEventSelect = spyOnEvent(picker, 'select');
