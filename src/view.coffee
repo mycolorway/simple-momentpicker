@@ -79,9 +79,6 @@ class View extends SimpleModule
     .on 'click', '.panel-item', (e)=>
       e.stopPropagation()
       @_panelItemHandler(e)
-      @parent.trigger 'select',
-        type: @name
-        moment: @moment.clone()
 
   _menuItemHandler: ->
     false
