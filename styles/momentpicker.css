@@ -8,6 +8,10 @@
 .simple-momentpicker a {
   text-decoration: none;
 }
+.simple-momentpicker.date-picker .calendar-menu {
+  display: table;
+  width: 100%;
+}
 .simple-momentpicker.date-picker .calendar-menu .menu-item {
   display: block;
   width: 25%;
@@ -28,6 +32,10 @@
   width: 50%;
   float: left;
   font-weight: bolder;
+}
+.simple-momentpicker.date-picker .calendar-menu:after {
+  content: '';
+  clear: both;
 }
 .simple-momentpicker.date-picker table.calendar {
   width: 100%;

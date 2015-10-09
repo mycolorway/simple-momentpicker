@@ -17,6 +17,8 @@ $border-color: #e7e7e7;
 
   &.date-picker {
     .calendar-menu {
+      display: table;
+      width: 100%;
       .menu-item {
         display: block;
         width: 25%;
@@ -37,6 +39,10 @@ $border-color: #e7e7e7;
         width: 50%;
         float:left;
         font-weight: bolder;
+      }
+      &:after {
+        content: '';
+        clear: both;
       }
     }
 
