@@ -65,7 +65,8 @@ class View extends SimpleModule
       @show()
     .on 'click', (e)=>
       @show()
-    .on 'keydown', =>
+    .on 'keydown', (e)=>
+      @verifyValue() if @el.val() and e.keyCode == 13
       @hide()
     .on 'blur', =>
       @verifyValue() if @el.val()
@@ -78,9 +79,6 @@ class View extends SimpleModule
     .on 'click', '.panel-item', (e)=>
       e.stopPropagation()
       @_panelItemHandler(e)
-      @parent.trigger 'select',
-        type: @name
-        moment: @moment.clone()
 
   _menuItemHandler: ->
     false
@@ -109,6 +107,10 @@ class View extends SimpleModule
 
   hide: ->
     @panel.hide()
+
+  clear: ->
+    @el.val ''
+    @moment = moment()
 
   destroy: ->
     @panel.remove()
