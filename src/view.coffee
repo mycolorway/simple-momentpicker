@@ -65,7 +65,8 @@ class View extends SimpleModule
       @show()
     .on 'click', (e)=>
       @show()
-    .on 'keydown', =>
+    .on 'keydown', (e)=>
+      @verifyValue() if @el.val() and e.keyCode == 13
       @hide()
     .on 'blur', =>
       @verifyValue() if @el.val()
@@ -109,6 +110,10 @@ class View extends SimpleModule
 
   hide: ->
     @panel.hide()
+
+  clear: ->
+    @el.val ''
+    @moment = moment()
 
   destroy: ->
     @panel.remove()
