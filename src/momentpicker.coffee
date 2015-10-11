@@ -77,10 +77,10 @@ class MomentPicker extends SimpleModule
       else if d.type == 'time'
         @moment.set('hour', d.moment.hour())
         @moment.set('minute', d.moment.minute())
+      @el.val(@moment.format(@_inputValueFormat)).change()
       @trigger 'select',
         type: d.type
         moment: @moment.clone()
-      @el.val(@moment.format(@_inputValueFormat)).change()
 
   getMoment: ->
     @moment.clone()
