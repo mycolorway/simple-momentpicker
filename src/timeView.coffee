@@ -17,7 +17,7 @@ class Timeview extends View
       for minute in [0, 30]
         m.hour(hour)
         m.minute(minute)
-        el += "<a class='panel-item' data-value='#{m.format('HH:mm')}'>#{m.format('A HH:mm')}</a>"
+        el += "<a class='panel-item' data-value='#{m.format('HH:mm')}'>#{m.format('A hh:mm')}</a>"
     el
 
   _setActive: ->
