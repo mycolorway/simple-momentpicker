@@ -63,8 +63,8 @@ class View extends SimpleModule
   _bindEl: ->
     @el.on 'focus', => 
       @show()
-    .on 'click', (e)=>
-      @show()
+    .on 'click', ->
+      @select()
     .on 'keydown', (e)=>
       @verifyValue() if @el.val() and e.keyCode == 13
       @hide()
