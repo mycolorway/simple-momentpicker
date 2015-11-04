@@ -96,7 +96,8 @@ class View extends SimpleModule
     @_reRenderPanel()
 
   verifyValue: ->
-    new_moment = moment(@el.val(), @opts.format)
+    new_moment = moment(@el.val(), 'YYYYMMDD')
+    new_moment = moment(@el.val()) if not new_moment.isValid()
     if new_moment.isValid()
       @moment = new_moment
     @_setElValue()
