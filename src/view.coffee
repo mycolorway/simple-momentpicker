@@ -31,10 +31,7 @@ class View extends SimpleModule
 
   _renderPanel: ->
     @panel = $(@panelTpl).html(@_getPanelTpl()).addClass(@opts.cls).attr('id', "#{@name}-#{@id}")
-    if @opts.inline
-      @panel.insertAfter(@parent.el)
-    else
-      @panel.appendTo('body')
+    @panel.insertAfter(@el)
 
   _getPanelTpl: ->
     @panelTpl
@@ -44,11 +41,11 @@ class View extends SimpleModule
     @_setPosition() if not @opts.inline
 
   _setPosition: ->
-    offset = @el.offset()
+    position = @el.position()
     @panel.css
       'position': 'absolute'
-      'left': offset.left
-      'top': offset.top + @el.outerHeight(true)
+      'left': position.left
+      'top': position.top + @el.outerHeight(true)
 
   _bind: ->
     @_bindEl()
