@@ -34,7 +34,7 @@ class View extends SimpleModule
     if @opts.inline
       @panel.insertAfter(@parent.el)
     else
-      @panel.appendTo('body')
+      @panel.insertAfter(@el)
 
   _getPanelTpl: ->
     @panelTpl
@@ -44,11 +44,11 @@ class View extends SimpleModule
     @_setPosition() if not @opts.inline
 
   _setPosition: ->
-    offset = @el.offset()
+    position = @el.position()
     @panel.css
       'position': 'absolute'
-      'left': offset.left
-      'top': offset.top + @el.outerHeight(true)
+      'left': position.left
+      'top': position.top + @el.outerHeight(true)
 
   _bind: ->
     @_bindEl()
@@ -96,7 +96,8 @@ class View extends SimpleModule
     @_reRenderPanel()
 
   verifyValue: ->
-    new_moment = moment(@el.val(), @opts.format)
+    new_moment = moment(@el.val(), 'YYYYMMDD')
+    new_moment = moment(@el.val()) if not new_moment.isValid()
     if new_moment.isValid()
       @moment = new_moment
     @_setElValue()
