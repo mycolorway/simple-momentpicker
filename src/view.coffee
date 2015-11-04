@@ -31,7 +31,10 @@ class View extends SimpleModule
 
   _renderPanel: ->
     @panel = $(@panelTpl).html(@_getPanelTpl()).addClass(@opts.cls).attr('id', "#{@name}-#{@id}")
-    @panel.insertAfter(@el)
+    if @opts.inline
+      @panel.insertAfter(@parent.el)
+    else
+      @panel.insertAfter(@el)
 
   _getPanelTpl: ->
     @panelTpl
