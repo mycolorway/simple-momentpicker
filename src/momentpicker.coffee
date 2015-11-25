@@ -6,6 +6,8 @@ class MomentPicker extends SimpleModule
     formatSplit: ' '
     cls: ''
     viewOpts:
+      time:
+        startingHour: 0
       date:
         disableBefore: null
         disableAfter: null
@@ -64,7 +66,6 @@ class MomentPicker extends SimpleModule
       moment: @moment
       format: format
       parent: @
-
     $.extend opt, @opts['viewOpts'][name] if @opts['viewOpts'][name]
     @views[name] = new View::constructor.views[name](opt)
 

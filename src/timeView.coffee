@@ -13,7 +13,7 @@ class Timeview extends View
       <div class='hour-panel'>
     """
     m = window.moment()
-    for hour in [0..23]
+    for hour in [@opts.startingHour..23]
       for minute in [0, 30]
         m.hour(hour)
         m.minute(minute)
