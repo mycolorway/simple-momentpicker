@@ -53,7 +53,7 @@ describe 'simple-momentpicker', ->
   it 'should set initial value to view', ->
     expect($date_input.val()).toBe('2014-08-01')
     expect($date_panel.find('.panel-item.selected').data('value')).toBe('2014-08-01')
-    expect($time_input.val()).toBe('10:30')
+    expect($time_input.val()).toBe('AM 10:30')
 
   it 'should trigger el\'s change event when component data change', ->
     spyEventChange = spyOnEvent(picker.el, 'change')
