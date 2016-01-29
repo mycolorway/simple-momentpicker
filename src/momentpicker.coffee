@@ -6,8 +6,6 @@ class MomentPicker extends SimpleModule
     formatSplit: ' '
     cls: ''
     viewOpts:
-      time:
-        startingHour: 0
       date:
         disableBefore: null
         disableAfter: null
@@ -57,9 +55,9 @@ class MomentPicker extends SimpleModule
   _creaetView: (name)->
     if @opts.displayFormat?
       format = @opts.displayFormat
-      format = format.split(@opts.formatSplit)[1] if name == 'time'
+      format = format.split(@opts.formatSplit).pop() if name == 'time'
       format = format.split(@opts.formatSplit)[0] if name == 'date'
-    opt = 
+    opt =
       id: @id
       cls: @opts.cls
       inline: @opts.inline
@@ -113,4 +111,3 @@ momentpicker = (opts) ->
   new MomentPicker opts
 
 momentpicker.View = View
-

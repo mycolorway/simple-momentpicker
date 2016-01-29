@@ -2,6 +2,7 @@ class Timeview extends View
   name: 'time'
   opts:
     format: 'A hh:mm'
+    startingHour: 0
 
   panelTpl: """
     <div class='simple-momentpicker time-picker'>
@@ -14,12 +15,14 @@ class Timeview extends View
 
     for hour in [@opts.startingHour..23]
       for minute in [0, 30]
-        m = m.set
-          hour: hour
-          minute: minute
-        s = m.format @opts.format
+        m.hour hour
+        m.minute minute
 
-        items += "<a class='panel-item' data-value='#{s}'>#{s}</a>"
+        items += """
+          <a class='panel-item' data-value='#{m.format 'HH:mm'}'>
+            #{m.format @opts.format}
+          </a>
+        """
 
     "<div class='hour-panel'>#{items}</div>"
 
@@ -28,12 +31,10 @@ class Timeview extends View
 
   _panelItemHandler: (e)->
     value = $(e.currentTarget).data('value')
-    m = moment value, @opts.format
-    @moment.set
-      hour: m.hour()
-      minute: m.minute()
-      second: 0
-
+    m = moment value, 'HH:mm'
+    @moment.hour m.hour()
+    @moment.minute m.minute()
+    @moment.second 0
     @_setElValue()
     @hide()
 
