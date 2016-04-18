@@ -61,15 +61,15 @@ class View extends SimpleModule
       @_setPosition()
 
   _bindEl: ->
-    @el.on 'focus', => 
+    @el.on 'focus', =>
       @show()
     .on 'click', ->
       @select()
     .on 'keydown', (e)=>
-      @verifyValue() if @el.val() and e.keyCode == 13
+      @verifyValue() if e.keyCode == 13
       @hide()
     .on 'blur', =>
-      @verifyValue() if @el.val()
+      @verifyValue()
 
   _bindPanel: ->
     @panel.on 'click', '.menu-item', (e)=>
@@ -92,6 +92,12 @@ class View extends SimpleModule
       type: @name
       moment: @moment.clone()
 
+  _clearElValue: ->
+    @el.val('')
+    @parent.trigger 'datechange',
+      type: @name,
+      moment: null,
+
   _setActive: ->
     @_reRenderPanel()
 
@@ -100,7 +106,10 @@ class View extends SimpleModule
     new_moment = moment(@el.val()) if not new_moment.isValid()
     if new_moment.isValid()
       @moment = new_moment
-    @_setElValue()
+    if new_moment.parsingFlags().nullInput
+      @_clearElValue()
+    else
+      @_setElValue()
 
   show: ->
     @_setActive()
