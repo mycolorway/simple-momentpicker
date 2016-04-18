@@ -61,7 +61,7 @@ class View extends SimpleModule
       @_setPosition()
 
   _bindEl: ->
-    @el.on 'focus', => 
+    @el.on 'focus', =>
       @show()
     .on 'click', ->
       @select()
@@ -86,12 +86,18 @@ class View extends SimpleModule
   _panelItemHandler: ->
     false
 
-  _setElValue: (empty) ->
-    if empty then @el.val('') else @el.val(@moment.format(@opts.format))
+  _setElValue: ->
+    @el.val(@moment.format(@opts.format))
     @parent.trigger 'datechange',
       type: @name
       moment: @moment.clone()
-      empty: empty
+
+  _clearElValue: ->
+    @el.val('')
+    @parent.trigger 'datechange',
+      type: @name,
+      moment: @moment.clone(),
+      empty: true
 
   _setActive: ->
     @_reRenderPanel()
@@ -102,7 +108,7 @@ class View extends SimpleModule
     if new_moment.isValid()
       @moment = new_moment
     if new_moment.parsingFlags().nullInput
-      @_setElValue(true)
+      @_clearElValue()
     else
       @_setElValue()
 
