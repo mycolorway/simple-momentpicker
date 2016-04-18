@@ -66,10 +66,10 @@ class View extends SimpleModule
     .on 'click', ->
       @select()
     .on 'keydown', (e)=>
-      @verifyValue() if @el.val() and e.keyCode == 13
+      @verifyValue() if e.keyCode == 13
       @hide()
     .on 'blur', =>
-      @verifyValue() if @el.val()
+      @verifyValue()
 
   _bindPanel: ->
     @panel.on 'click', '.menu-item', (e)=>
@@ -86,11 +86,12 @@ class View extends SimpleModule
   _panelItemHandler: ->
     false
 
-  _setElValue: ->
-    @el.val(@moment.format(@opts.format))
+  _setElValue: (empty) ->
+    if empty then @el.val('') else @el.val(@moment.format(@opts.format))
     @parent.trigger 'datechange',
       type: @name
       moment: @moment.clone()
+      empty: empty
 
   _setActive: ->
     @_reRenderPanel()
@@ -100,7 +101,10 @@ class View extends SimpleModule
     new_moment = moment(@el.val()) if not new_moment.isValid()
     if new_moment.isValid()
       @moment = new_moment
-    @_setElValue()
+    if new_moment.parsingFlags().nullInput
+      @_setElValue(true)
+    else
+      @_setElValue()
 
   show: ->
     @_setActive()
