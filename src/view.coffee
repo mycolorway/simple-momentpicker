@@ -96,8 +96,7 @@ class View extends SimpleModule
     @el.val('')
     @parent.trigger 'datechange',
       type: @name,
-      moment: @moment.clone(),
-      empty: true
+      moment: null,
 
   _setActive: ->
     @_reRenderPanel()

@@ -69,7 +69,7 @@ class MomentPicker extends SimpleModule
 
   _bind: ->
     @on 'datechange.momentpicker', (e, d)=>
-      return @el.val('') if d.empty
+      return @el.val('') if d.moment is null
       if d.type == 'date' or d.type == 'month'
         @moment.set('year', d.moment.year())
         @moment.set('month', d.moment.month())
