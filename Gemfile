@@ -1,7 +1,3 @@
-if ENV['CIRCLECI']
-  source 'https://rubygems.org'
-else
-  source 'http://ruby.taobao.org'
-end
+source 'https://rubygems.org'
 
 gem 'sass',    '>= 3.4.0'
