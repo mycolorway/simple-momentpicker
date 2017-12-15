@@ -70,6 +70,7 @@ class MomentPicker extends SimpleModule
   _bind: ->
     @on 'datechange.momentpicker', (e, d)=>
       return @el.val('') if d.moment is null
+
       if d.type == 'date' or d.type == 'month'
         @moment.set('year', d.moment.year())
         @moment.set('month', d.moment.month())
@@ -78,6 +79,7 @@ class MomentPicker extends SimpleModule
         @moment.set('hour', d.moment.hour())
         @moment.set('minute', d.moment.minute())
       @el.val(@moment.format(@_inputValueFormat)).change()
+
       @trigger 'select',
         type: d.type
         moment: @moment.clone()

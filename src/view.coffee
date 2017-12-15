@@ -68,7 +68,7 @@ class View extends SimpleModule
     .on 'keydown', (e)=>
       @verifyValue() if e.keyCode == 13
       @hide()
-    .on 'blur', =>
+    .on 'change', =>
       @verifyValue()
 
   _bindPanel: ->
@@ -103,9 +103,8 @@ class View extends SimpleModule
 
   verifyValue: ->
     new_moment = moment(@el.val(), @opts.format)
-    new_moment = moment(@el.val()) if not new_moment.isValid()
-    if new_moment.isValid()
-      @moment = new_moment
+    @moment = new_moment if new_moment.isValid()
+
     if new_moment.parsingFlags().nullInput
       @_clearElValue()
     else
