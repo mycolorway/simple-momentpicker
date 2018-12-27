@@ -3,6 +3,7 @@
   "description": "A simple datetime picker component.",
   "version": "2.0.13",
   "homepage": "https://github.com/mycolorway/simple-momentpicker",
+  "main": "lib/momentpicker.js",
   "author": {
     "name": "lcj",
     "email": "emlcjnil@gmail.com"
